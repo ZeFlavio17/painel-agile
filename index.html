@@ -71,11 +71,43 @@
         /* =========================================
            PAINEL 3D (Com Pista Completa e Luzes Reais)
            ========================================= */
-        #view-panel { transition: background 1s ease; }
+        #view-panel { transition: background 1s ease; position: relative; }
         
         .col-left { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
         .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; perspective: 800px; z-index: 1;}
         .col-right { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
+
+        /* DATA E HORA NO TOPO (MODERNO E SEM BORDA) */
+        .top-right-container {
+            position: absolute; top: 4%; right: 4%; z-index: 100;
+            display: flex; align-items: flex-start; gap: 15px;
+        }
+        
+        .datetime-block {
+            display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
+        }
+        
+        .time-text {
+            font-family: var(--font-main); font-size: clamp(24px, 4vh, 36px); font-weight: 700;
+            color: #00ffaa; text-shadow: 0 0 15px #00ffaa; line-height: 1; transition: color 0.5s ease;
+        }
+        
+        .date-text {
+            font-family: var(--font-main); font-size: clamp(14px, 2vh, 18px); font-weight: 400;
+            color: #ffb700; text-shadow: 0 0 10px #ffb700; line-height: 1; transition: color 0.5s ease;
+        }
+
+        /* BOTÃO DE TELA CHEIA */
+        .fullscreen-btn {
+            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5);
+            width: 40px; height: 40px; border-radius: 8px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
+            padding: 0; outline: none;
+        }
+        .fullscreen-btn:hover { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
+        .fullscreen-btn svg { width: 22px; height: 22px; stroke: #fff; transition: stroke 0.3s ease; }
+        .fullscreen-btn:hover svg { stroke: var(--neon-red); }
 
         /* VELOCÍMETRO */
         .speed-container-new { display: flex; flex-direction: column; align-items: center; }
@@ -105,7 +137,6 @@
             background-size: 100% 100%;
         }
 
-        /* Gradiente para o fundo da pista sumir no escuro */
         .track-horizon-fade {
             position: absolute; top: 0; left: 0; width: 100%; height: 50%;
             background: linear-gradient(to bottom, var(--bg-dark) 0%, transparent 100%);
@@ -124,7 +155,7 @@
             -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
         }
 
-        /* FAROL DIANTEIRO (Branco Neon) */
+        /* FAROL DIANTEIRO */
         .headlight-beam {
             position: absolute; bottom: 50%; left: -50%; width: 200%; height: 400px;
             background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.9) 0%, rgba(200, 240, 255, 0.4) 40%, transparent 70%);
@@ -134,7 +165,7 @@
             opacity: 1; transition: opacity 0.5s ease;
         }
         
-        /* LANTERNAS TRASEIRAS (Vermelho Forte) */
+        /* LANTERNAS TRASEIRAS */
         .taillight {
             position: absolute; bottom: 22%; width: 12%; height: 8%;
             background: #ff0000; border-radius: 50%;
@@ -142,33 +173,21 @@
             z-index: 4; mix-blend-mode: screen;
             opacity: 1; transition: opacity 0.5s ease;
         }
-        /* Posições exatas sobre as lanternas do Agile */
         .taillight.left { left: 18%; }
         .taillight.right { right: 18%; }
-
-        /* DATA E HORA */
-        .glass-panel {
-            background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2);
-            border-radius: 20px; padding: 40px 30px; width: 100%;
-            box-shadow: inset 0 0 20px rgba(255, 0, 51, 0.05), 0 10px 30px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; gap: 40px; backdrop-filter: blur(10px); transition: all 0.5s ease;
-        }
-
-        .widget { display: flex; flex-direction: column; gap: 10px; }
-        .widget .title { font-family: var(--font-accent); font-size: clamp(10px, 1.8vh, 14px); color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; transition: color 0.5s ease;}
-        .widget .value { font-family: var(--font-display); font-size: clamp(25px, 4vh, 38px); font-weight: 700; text-shadow: 0 0 10px currentColor; transition: color 0.5s ease;}
-        .c-time .value { color: #00ffaa; text-shadow: 0 0 15px #00ffaa; }
-        .c-date .value { color: #ffb700; text-shadow: 0 0 15px #ffb700; }
 
         /* =========================================
            TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
            ========================================= */
         #view-panel.light-mode { background: radial-gradient(circle at center, #e2e8f0 0%, #cbd5e1 100%); }
         #view-panel.light-mode .speed-value-new { color: #1e293b; text-shadow: none; }
-        #view-panel.light-mode .glass-panel { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        #view-panel.light-mode .widget .title { color: #64748b; }
-        #view-panel.light-mode .widget .value { color: #0f172a !important; text-shadow: none !important; }
         
+        /* Cores escuras para a Data, Hora e Botão no Modo Dia */
+        #view-panel.light-mode .time-text,
+        #view-panel.light-mode .date-text { color: #0f172a !important; text-shadow: none !important; }
+        #view-panel.light-mode .fullscreen-btn { background: rgba(255, 255, 255, 0.7); border-color: rgba(0,0,0,0.2); }
+        #view-panel.light-mode .fullscreen-btn svg { stroke: #0f172a; }
+
         /* Pista de Dia */
         #view-panel.light-mode .track { background: #64748b; border-color: transparent; box-shadow: none; }
         #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 80px, rgba(255, 255, 255, 0.9) 80px, rgba(255, 255, 255, 0.9) 180px); }
@@ -237,6 +256,21 @@
 
     <!-- ABA 1: PAINEL 3D -->
     <div id="view-panel" class="view-section active">
+        
+        <!-- DATA, HORA E TELA CHEIA (TOPO DIREITO) -->
+        <div class="top-right-container">
+            <div class="datetime-block">
+                <div id="time-display" class="time-text">--:--:--</div>
+                <div id="date-display" class="date-text">--/--/----</div>
+            </div>
+            
+            <button class="fullscreen-btn" onclick="toggleFullScreen()" title="Tela Cheia">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                </svg>
+            </button>
+        </div>
+
         <!-- ESQUERDA: Velocímetro -->
         <div class="col-left">
             <div class="speed-container-new">
@@ -269,19 +303,8 @@
 
         </div>
 
-        <!-- DIREITA: Data e Hora -->
-        <div class="col-right">
-            <div class="glass-panel">
-                <div class="widget c-time">
-                    <div class="title">HORA LOCAL</div>
-                    <div class="value" id="time-display">--:--:--</div>
-                </div>
-                <div class="widget c-date">
-                    <div class="title">DATA</div>
-                    <div class="value" id="date-display">--/--/----</div>
-                </div>
-            </div>
-        </div>
+        <!-- DIREITA: Coluna vazia para manter o carro perfeitamente no centro -->
+        <div class="col-right"></div>
     </div>
 
     <!-- ABA 2: LOGO / MÍDIA -->
@@ -350,6 +373,19 @@
 </div>
 
 <script>
+    // --- LÓGICA DE TELA CHEIA ---
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Erro ao tentar modo tela cheia: ${err.message}`);
+            });
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+
     // --- LÓGICA DOS MENUS ---
     function toggleMenu() {
         const nav = document.getElementById('main-nav');
