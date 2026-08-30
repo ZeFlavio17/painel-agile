@@ -88,42 +88,42 @@
 
         /* VELOCÍMETRO */
         .speed-container-new { display: flex; flex-direction: column; align-items: center; }
-        .speed-value-new { font-family: 'Arial', sans-serif; font-size: clamp(100px, 25vh, 250px); font-weight: bold; color: #fff; text-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red); line-height: 0.9; transition: all 0.5s ease; }
+        .speed-value-new { font-family: 'Arial', sans-serif; font-size: clamp(100px, 25vh, 250px); font-weight: bold; color: #fff; text-shadow: 0 0 20px var(--neon-red), 0 0 50px var(--neon-red); line-height: 0.9; transition: all 0.5s ease; }
         .speed-unit-new { font-family: var(--font-accent); font-size: clamp(20px, 4vh, 40px); color: var(--neon-red); letter-spacing: 10px; text-shadow: 0 0 10px var(--neon-red); margin-top: 15px; }
 
         /* =========================================
-           PISTA 3D CORRIGIDA E REALISTA
+           PISTA 3D EXTREMAMENTE MARCADA
            ========================================= */
         .track-container {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60%;
-            perspective: 600px; display: flex; justify-content: center; z-index: 0;
-            /* Máscara que faz a pista sumir suavemente no horizonte escuro */
-            mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 70%;
+            perspective: 500px; display: flex; justify-content: center; z-index: 0;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 30%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%);
         }
         
         .track {
-            position: absolute; bottom: -50px; width: 100vw; height: 200%;
-            background: #080808;
-            transform: rotateX(70deg); transform-origin: bottom center;
-            border-left: 3px solid rgba(255, 0, 51, 0.8);
-            border-right: 3px solid rgba(255, 0, 51, 0.8);
-            box-shadow: 0 0 30px rgba(255,0,51,0.1) inset;
+            position: absolute; bottom: -50px; width: 120vw; height: 250%;
+            background: #000; /* Fundo totalmente preto para fundir com a imagem da IA */
+            transform: rotateX(75deg); transform-origin: bottom center;
+            /* Bordas brancas fortes iguais ao seu desenho */
+            border-left: 6px solid #fff;
+            border-right: 6px solid #fff;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.2);
         }
 
         .track-lines {
             position: absolute; left: 50%; transform: translateX(-50%);
-            width: 6px; height: 100%;
-            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 80px, rgba(255, 255, 255, 0.8) 80px, rgba(255, 255, 255, 0.8) 180px);
+            width: 8px; height: 100%;
+            /* Linha central bem marcada e espaçada */
+            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 150px, #fff 150px, #fff 300px);
             background-size: 100% 100%;
         }
 
         /* =========================================
-           CARRO MAIOR E LUZES TRAVADAS
+           CARRO E LUZES EXATAS
            ========================================= */
         .car-wrapper {
             position: relative; z-index: 4; margin-bottom: 2%;
-            /* Tamanho travado usando Aspect Ratio para as luzes não saírem do lugar */
             width: clamp(250px, 40vh, 420px); 
             aspect-ratio: 1 / 1; 
             display: flex; justify-content: center; align-items: flex-end;
@@ -131,35 +131,38 @@
 
         #carroImg {
             width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 3;
-            /* Recorte redondo e forte para matar o fundo preto da IA */
-            mask-image: radial-gradient(circle at 50% 55%, black 45%, transparent 70%);
-            -webkit-mask-image: radial-gradient(circle at 50% 55%, black 45%, transparent 70%);
+            /* Recorte sutil apenas para as pontas, mantendo o quadrado invisível no fundo preto */
+            mask-image: radial-gradient(circle at 50% 50%, black 55%, transparent 75%);
+            -webkit-mask-image: radial-gradient(circle at 50% 50%, black 55%, transparent 75%);
         }
 
-        /* LANTERNAS TRASEIRAS */
+        /* LANTERNAS TRASEIRAS (Em cima da lente e mais fortes) */
         .taillight {
             position: absolute; 
-            bottom: 25%; /* Posição Vertical Travada */
-            width: 10%; height: 8%; 
-            background: #ff0000; border-radius: 50%;
-            box-shadow: 0 0 15px 5px rgba(255, 0, 0, 1), 0 0 40px 15px rgba(255, 0, 51, 0.8);
-            z-index: 5; mix-blend-mode: screen; opacity: 1; transition: opacity 0.5s ease;
+            bottom: 33%; /* Mais para cima, exatamente na lente */
+            width: 8%; height: 10%; 
+            background: #fff; /* Núcleo branco para simular LED intenso */
+            border-radius: 40%;
+            /* Camadas de brilho: branco no centro, vermelho espalhado */
+            box-shadow: 0 0 10px 4px #fff, 0 0 25px 15px #ff0000, 0 0 60px 25px #ff0033;
+            z-index: 5; mix-blend-mode: normal; opacity: 1; transition: opacity 0.5s ease;
         }
-        /* Posição Horizontal Travada */
-        .taillight.left { left: 23%; }
-        .taillight.right { right: 23%; }
+        /* Mais para as pontas */
+        .taillight.left { left: 16%; }
+        .taillight.right { right: 16%; }
 
-        /* FAROL DIANTEIRO (FEIXE BRANCO) */
+        /* FAROL DIANTEIRO (ALCANCE LONGO E BRANCO NEON) */
         .headlight-beam {
             position: absolute; 
-            bottom: 45%; left: -50%; /* Centraliza o cone saindo de trás do carro */
-            width: 200%; height: 150%; 
-            background: linear-gradient(to top, rgba(200, 240, 255, 0.3) 0%, transparent 70%);
-            clip-path: polygon(35% 100%, 65% 100%, 100% 0%, 0% 0%);
-            filter: blur(10px);
+            bottom: 45%; left: 50%; transform: translateX(-50%) perspective(400px) rotateX(55deg);
+            width: 250%; /* Bem largo na base */
+            height: 250vh; /* Vai até o infinito da tela */
+            /* Gradiente branco neon fortíssimo que some no horizonte */
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(200, 240, 255, 0.5) 30%, transparent 100%);
+            clip-path: polygon(40% 100%, 60% 100%, 100% 0%, 0% 0%); /* Formato do feixe V saindo do carro */
+            filter: blur(6px);
             z-index: 1; opacity: 1; transition: opacity 0.5s ease;
             transform-origin: bottom center;
-            transform: perspective(300px) rotateX(40deg);
         }
 
         /* =========================================
@@ -174,15 +177,15 @@
         #view-panel.light-mode .fullscreen-btn svg { stroke: #0f172a; }
 
         /* Pista Clara de Dia */
-        #view-panel.light-mode .track { background: #94a3b8; border-left-color: #64748b; border-right-color: #64748b; box-shadow: none; }
-        #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 80px, rgba(255, 255, 255, 0.9) 80px, rgba(255, 255, 255, 0.9) 180px); }
+        #view-panel.light-mode .track { background: #94a3b8; border-left-color: #fff; border-right-color: #fff; box-shadow: none; }
+        #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 150px, #fff 150px, #fff 300px); }
 
         /* Apagar Luzes de Dia */
         #view-panel.light-mode .headlight-beam,
         #view-panel.light-mode .taillight { opacity: 0; }
 
         /* ANIMAÇÕES */
-        @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 260px; } }
+        @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 300px; } }
         @keyframes idleVibration { 0% { transform: translateY(0px); } 50% { transform: translateY(1px); } 100% { transform: translateY(0px); } }
         @keyframes drivingVibration { 0% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-3px) rotate(-0.5deg); } 50% { transform: translateY(1px) rotate(0deg); } 75% { transform: translateY(-2px) rotate(0.5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
 
@@ -266,23 +269,23 @@
         <!-- PISTA E CARRO -->
         <div class="col-center">
             
-            <!-- Pista de asfalto -->
+            <!-- Pista Marcada e Longa -->
             <div class="track-container">
                 <div class="track">
                     <div id="trackLines" class="track-lines"></div>
                 </div>
             </div>
             
-            <!-- Wrapper travado em tamanho 1x1 para manter as luzes alinhadas -->
+            <!-- Carro e Luzes Travadas -->
             <div class="car-wrapper">
                 
-                <!-- Farol projetado na frente -->
+                <!-- Farol projetado longo em neon branco -->
                 <div class="headlight-beam"></div>
                 
-                <!-- Carro limpo com máscara redonda -->
+                <!-- Carro -->
                 <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
                 
-                <!-- LEDs traseiros -->
+                <!-- Lanternas Traseiras Altas e Fortes (sobre a lente) -->
                 <div class="taillight left"></div>
                 <div class="taillight right"></div>
             </div>
