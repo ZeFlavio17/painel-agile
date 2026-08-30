@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Agile Ultra Moderno</title>
-    <!-- Fonte tecnológica do Google Fonts -->
+    <title>Painel Agile Minimalista 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -14,256 +13,181 @@
         }
 
         body {
-            background-color: #050505; /* Fundo super escuro */
+            background-color: #050505;
             color: #fff;
             font-family: 'Orbitron', sans-serif;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Container Principal com Grid */
-        .dashboard {
+        /* --- VELOCÍMETRO GIGANTE (ESQUERDA) --- */
+        .speed-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            width: 95vw;
-            height: 90vh;
-            gap: 20px;
-        }
-
-        /* Painéis Laterais com efeito de vidro/3D */
-        .side-panel {
-            background: linear-gradient(145deg, #0f0b0b, #151111);
-            border: 1px solid #2a1515;
-            border-radius: 20px;
-            padding: 40px 30px;
-            width: 30%;
-            height: 80%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.05), 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        /* Elementos dos painéis (Temp, Combustível, etc) */
-        .widget {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .title {
-            font-size: 0.8rem;
-            color: #888;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .value {
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 0 0 10px currentColor;
-        }
-
-        /* Barras de progresso estilo Neon */
-        .bar-bg {
-            width: 100%;
-            height: 8px;
-            background: #222;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 1s ease-in-out;
-        }
-
-        /* Cores específicas baseadas na sua imagem */
-        .c-temp .value { color: #fff; }
-        .c-temp .bar-fill { background: linear-gradient(90deg, #ff4500, #ff8c00); width: 75%; box-shadow: 0 0 10px #ff4500; }
-
-        .c-fuel .value { color: #ffb700; }
-        .c-fuel .bar-fill { background: linear-gradient(90deg, #ff4500, #ffb700); width: 45%; box-shadow: 0 0 10px #ffb700; }
-
-        .c-rpm .value { color: #ff003c; }
-        .c-rpm .bar-fill { background: #ff003c; width: 23%; box-shadow: 0 0 10px #ff003c; }
-
-        .c-bat .value { color: #00ffaa; }
-        .c-bat .bar-fill { background: linear-gradient(90deg, #ff003c, #00ffaa); width: 85%; box-shadow: 0 0 10px #00ffaa; }
-
-        /* Área Central (Velocímetro e Carro) */
-        .center-panel {
+            justify-content: center;
             width: 40%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            margin-left: 5%;
         }
 
-        /* Aro do Velocímetro */
-        .speed-ring {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            border: 8px solid #222;
-            border-top-color: #ff003c;
-            border-right-color: #ff003c;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 40px rgba(255, 0, 60, 0.4), inset 0 0 40px rgba(255, 0, 60, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Valores da Velocidade */
         .speed-value {
-            font-size: 6rem;
+            font-size: 16rem; /* Tamanho Gigante */
             font-weight: 900;
             color: #fff;
-            text-shadow: 0 0 20px #ff003c, 0 0 40px #ff003c;
-            line-height: 1;
+            text-shadow: 0 0 20px #ff003c, 0 0 50px #ff003c;
+            line-height: 0.9;
         }
 
         .speed-unit {
-            font-size: 1rem;
+            font-size: 3rem;
             color: #ff003c;
-            letter-spacing: 3px;
-            margin-top: 5px;
+            letter-spacing: 10px;
+            text-shadow: 0 0 10px #ff003c;
+            margin-top: 10px;
         }
 
-        /* Imagem do Carro (Sua imagem do link) */
-        .car-container {
-            margin-top: -40px; /* Sobe a imagem para mesclar com o aro */
-            z-index: 1;
+        /* --- CARRO E PISTA 3D (DIREITA) --- */
+        .car-track-container {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            perspective: 600px; /* Cria a ilusão de profundidade 3D */
         }
 
-        .car-container img {
-            width: 250px;
-            border-radius: 20px;
-            /* Máscara suave para disfarçar o fundo da foto gerada por IA */
-            mask-image: radial-gradient(circle, black 50%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 100%);
+        /* O Chão/Pista */
+        .track {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            height: 80%;
+            /* Fundo escuro esfumaçado simulando asfalto à noite */
+            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 40%, #151515 100%);
+            transform: rotateX(60deg); /* Deita a pista para trás */
+            transform-origin: bottom center;
+            border-left: 2px solid rgba(255, 0, 60, 0.2);
+            border-right: 2px solid rgba(255, 0, 60, 0.2);
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* As faixas da pista */
+        .track-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                to bottom,
+                transparent 0,
+                transparent 50px,
+                rgba(255, 255, 255, 0.7) 50px,
+                rgba(255, 255, 255, 0.7) 120px
+            );
+            background-size: 16px 100%; /* Largura da faixa branca */
+            background-position: center 0;
+            background-repeat: no-repeat;
+        }
+
+        /* A imagem do Agile */
+        #carroImg {
+            width: 320px; /* Um pouco maior para dar mais destaque */
+            z-index: 2;
+            margin-bottom: 50px;
+            /* Máscara para tirar a borda preta quadrada da IA e misturar com a pista */
+            mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
         }
 
         /* --- ANIMAÇÕES --- */
         
-        /* Animação do carro PARADO (motor ligado) */
+        /* Faixa da pista rolando em loop */
+        @keyframes scrollRoad {
+            from { background-position: center 0px; }
+            to { background-position: center 120px; }
+        }
+
+        /* Vibração do motor ligado (parado) */
         @keyframes idleVibration {
             0% { transform: translateY(0px); }
             50% { transform: translateY(1px); }
             100% { transform: translateY(0px); }
         }
 
-        /* Animação do carro EM MOVIMENTO (suspensão trabalhando) */
+        /* Tremida forte da suspensão (andando) */
         @keyframes drivingVibration {
             0% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-3px) rotate(-0.5deg); }
-            50% { transform: translateY(1px) rotate(0deg); }
-            75% { transform: translateY(-2px) rotate(0.5deg); }
+            25% { transform: translateY(-4px) rotate(-1deg); }
+            50% { transform: translateY(2px) rotate(0deg); }
+            75% { transform: translateY(-3px) rotate(1deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
-        .carro-parado {
-            animation: idleVibration 0.1s infinite;
+        /* Classes ativadas pelo Javascript */
+        .carro-parado { 
+            animation: idleVibration 0.1s infinite; 
         }
-
-        .carro-andando {
-            animation: drivingVibration 0.3s infinite;
+        
+        .carro-andando { 
+            animation: drivingVibration 0.3s infinite; 
+        }
+        
+        .pista-movimento {
+            animation: scrollRoad 0.3s linear infinite;
         }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <!-- PAINEL ESQUERDO -->
-        <div class="panel side-panel">
-            <div class="widget c-temp">
-                <div class="title">Temperatura</div>
-                <div class="value">91°C</div>
-                <div class="bar-bg"><div class="bar-fill"></div></div>
-            </div>
-            <div class="widget c-fuel">
-                <div class="title">Combustível</div>
-                <div class="value">45%</div>
-                <div class="bar-bg"><div class="bar-fill"></div></div>
-            </div>
-        </div>
+    <!-- VELOCÍMETRO GIGANTE -->
+    <div class="speed-container">
+        <div class="speed-value" id="velocidadeTxt">0</div>
+        <div class="speed-unit">KM/H</div>
+    </div>
 
-        <!-- PAINEL CENTRAL (VELOCÍMETRO) -->
-        <div class="panel center-panel">
-            <div class="speed-ring">
-                <div class="speed-value" id="velocidadeTxt">0</div>
-                <div class="speed-unit">KM/H</div>
-            </div>
-            <div class="car-container">
-                <!-- Usando a sua imagem gerada -->
-                <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
-            </div>
+    <!-- PISTA E CARRO -->
+    <div class="car-track-container">
+        <div class="track">
+            <!-- A linha do meio que vai se mover -->
+            <div id="trackLines" class="track-lines"></div>
         </div>
-
-        <!-- PAINEL DIREITO -->
-        <div class="panel side-panel">
-            <div class="widget c-rpm">
-                <div class="title">RPM X1000</div>
-                <div class="value" id="rpmValue">2.3</div>
-                <div class="bar-bg"><div class="bar-fill" id="rpmBar"></div></div>
-            </div>
-            <div class="widget c-bat">
-                <div class="title">Bateria</div>
-                <div class="value">13.8V</div>
-                <div class="bar-bg"><div class="bar-fill"></div></div>
-            </div>
-        </div>
+        
+        <!-- Sua imagem do Agile -->
+        <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
     </div>
 
     <script>
         const velDisplay = document.getElementById('velocidadeTxt'); 
         const carroImg = document.getElementById('carroImg');
-        const rpmValue = document.getElementById('rpmValue');
-        const rpmBar = document.getElementById('rpmBar');
+        const trackLines = document.getElementById('trackLines');
 
-        // Função para simular RPM de forma realista baseado no motor
-        function simularRpm(estaAndando) {
-            let baseRpm = estaAndando ? 2.5 : 0.9; // 900 RPM parado, média de 2500 andando
-            let variacao = (Math.random() * 0.2) - 0.1; // Flutuação natural do motor
-            let valorFinal = (baseRpm + variacao).toFixed(1);
-            
-            rpmValue.innerText = valorFinal;
-            rpmBar.style.width = (valorFinal * 10) + '%';
-        }
-
-        // Função do GPS 100% Real
         function iniciarGPS() {
             if (navigator.geolocation) {
                 navigator.geolocation.watchPosition(
                     function(position) {
-                        // GPS retorna m/s. Transformamos em km/h e arredondamos
+                        // Converte velocidade de m/s para Km/h
                         let velMetrosPorSegundo = position.coords.speed;
                         let velKmH = 0;
 
-                        // Filtro anti-ruído (velocidade só marca se for maior que 1 km/h)
+                        // Se a velocidade for maior que 1 km/h (corta ruídos do GPS)
                         if (velMetrosPorSegundo !== null && velMetrosPorSegundo > 0.3) {
                             velKmH = Math.round(velMetrosPorSegundo * 3.6); 
                         }
 
+                        // Atualiza o texto na tela
                         velDisplay.innerText = velKmH;
 
-                        // Lógica de Movimento da Imagem e do RPM
+                        // Lógica de Movimento da Pista e do Carro
                         if (velKmH > 0) {
-                            carroImg.className = 'carro-andando'; // Ativa trepidação forte
-                            simularRpm(true);
+                            carroImg.className = 'carro-andando';
+                            trackLines.className = 'track-lines pista-movimento';
                         } else {
-                            carroImg.className = 'carro-parado'; // Ativa vibração leve de marcha lenta
-                            simularRpm(false);
+                            carroImg.className = 'carro-parado';
+                            trackLines.className = 'track-lines'; // Para a pista
                         }
                     },
                     function(error) {
@@ -278,16 +202,7 @@
             }
         }
 
-        // Atualiza a vibração do motor (RPM) a cada 1 segundo para dar vida ao painel
-        setInterval(() => {
-            if (carroImg.className === 'carro-parado') {
-                simularRpm(false);
-            } else {
-                simularRpm(true);
-            }
-        }, 1000);
-
-        // Inicia GPS
+        // Inicia o GPS
         iniciarGPS();
     </script>
 </body>
