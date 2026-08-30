@@ -12,22 +12,27 @@
             --neon-red: #ff0033;
             --neon-red-glow: rgba(255, 0, 51, 0.6);
             --bg-dark: #000000;
+            
+            /* =========================================
+               AJUSTE MILIMÉTRICO DAS LANTERNAS AQUI!
+               Se ficar um pouco fora, mude esses números:
+               ========================================= */
+            --altura-lanterna: 34%;   /* Aumente para subir, diminua para descer */
+            --lateral-lanterna: 28%;  /* Aumente para ir pro centro, diminua para ir pras pontas */
         }
 
         body, html {
             margin: 0; padding: 0; width: 100vw; height: 100vh;
-            background-color: #000 !important; 
+            background-color: #000000 !important; 
             overflow: hidden; user-select: none;
         }
 
         .multimedia-screen {
-            width: 100vw; height: 100vh; background: #000 !important;
+            width: 100vw; height: 100vh; background: #000000 !important;
             position: relative; overflow: hidden;
         }
 
-        /* =========================================
-           MENUS 
-           ========================================= */
+        /* MENUS */
         .menu-container { position: absolute; top: 4%; left: 4%; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
         .menu-toggle { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
         .menu-toggle.active { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
@@ -41,11 +46,11 @@
         .view-section.active { display: block; }
 
         /* =========================================
-           PAINEL 3D (BLINDADO)
+           PAINEL 3D
            ========================================= */
         #view-panel { background: #000000 !important; }
 
-        /* DATA E HORA */
+        /* DATA E HORA (FORMATO DO VELOCÍMETRO) */
         .top-right-container { position: absolute; top: 4%; right: 4%; z-index: 100; display: flex; align-items: flex-start; gap: 15px; }
         .datetime-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         
@@ -55,9 +60,9 @@
         .fullscreen-btn { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .fullscreen-btn svg { width: 22px; height: 22px; stroke: #fff; }
 
-        /* VELOCÍMETRO GIGANTE */
+        /* VELOCÍMETRO (GIGANTE, ARIAL PARA O ZERO NÃO BUGAR) */
         .speed-container-new { 
-            position: absolute; left: 6vw; top: 50%; transform: translateY(-50%); 
+            position: absolute; left: 8vw; top: 50%; transform: translateY(-50%); 
             display: flex; flex-direction: column; align-items: center; z-index: 10;
         }
         .speed-value-new { 
@@ -75,18 +80,18 @@
         }
 
         /* =========================================
-           PISTA INFINITA (ATÉ O TETO)
+           PISTA (VAI ATÉ O TETO)
            ========================================= */
         .track-container {
             position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-            perspective: 40vh; 
-            perspective-origin: 50% 10%; /* Foco lá no teto da tela */
+            perspective: 50vh; 
+            perspective-origin: 50% 15%; 
             display: flex; justify-content: center; z-index: 1; overflow: hidden;
         }
         
         .track {
             position: absolute; bottom: -20vh; width: 80vw; 
-            height: 400vh; /* Altura absurda para furar o teto */
+            height: 300vh; /* Altura absurda para furar o teto */
             background: #000000; 
             transform-origin: bottom center;
             transform: rotateX(82deg);
@@ -102,60 +107,49 @@
         }
 
         /* =========================================
-           CARRO GIGANTE, FARÓIS E LANTERNAS
+           CARRO, FARÓIS E LANTERNAS BLINDADOS
            ========================================= */
         .car-wrapper {
             position: absolute; 
-            bottom: -2%; /* Colado na base da tela */
+            bottom: -5vh; /* Colado na base */
             left: 50%; transform: translateX(-50%);
-            width: clamp(350px, 60vw, 800px); /* CARRO MUITO MAIOR */
+            width: clamp(350px, 55vh, 600px); /* CARRO GIGANTE */
+            aspect-ratio: 1 / 1; 
             display: block; z-index: 10;
         }
 
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
-            mix-blend-mode: screen; /* APAGA O FUNDO PRETO DO CARRO */
-            /* Máscara suave para sumir com as bordas quadradas de vez */
-            -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, black 50%, transparent 100%);
-            mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, black 50%, transparent 100%);
+            mix-blend-mode: screen; /* APAGA O FUNDO PRETO MAGICALMENTE */
         }
 
-        /* FARÓIS DIANTEIROS (EM "V" SEGURO SEM BUGS) */
-        .front-beam {
-            position: absolute; 
-            bottom: 34%; /* Nasce exatamente na altura das lanternas */
-            width: 30vw; height: 150vh; 
-            background: linear-gradient(to top, rgba(255, 255, 255, 0.75) 0%, rgba(200, 240, 255, 0.15) 40%, transparent 100%);
-            z-index: 1; /* Atrás do carro */
-            transform-origin: bottom center;
-            pointer-events: none;
-        }
-        /* Feixe cortando para a Esquerda */
-        .front-beam.left {
-            left: 20%; 
-            transform: rotate(-35deg);
-        }
-        /* Feixe cortando para a Direita */
-        .front-beam.right {
-            right: 20%; 
-            transform: rotate(35deg);
+        /* FAROL DIANTEIRO EM VETOR (100% A PROVA DE BUGS) */
+        /* Nasce exatamente da mesma altura das lanternas traseiras */
+        .headlight-svg {
+            position: absolute;
+            bottom: var(--altura-lanterna); 
+            left: 0;
+            width: 100%;
+            height: 150vh; /* Joga a luz até o teto da tela */
+            z-index: 1; /* Fica atrás do carro */
+            overflow: visible;
         }
 
-        /* LANTERNAS TRASEIRAS CRAVADAS (Exatamente sobre a lente) */
+        /* LANTERNAS TRASEIRAS CRAVADAS (Pequenas e Redondinhas) */
         .taillight {
             position: absolute; 
-            bottom: 34%; /* Altura exata da lente no Agile */
-            width: 25px; /* Tamanho Fixo (Menor e redondinho) */
+            bottom: var(--altura-lanterna); /* Usa o ajuste lá do topo */
+            width: 25px; /* Tamanho Fixo Redondo */
             height: 25px; 
             background: #ffffff; /* Núcleo Branco */
             border-radius: 50%;
-            /* Halo Vermelho muito intenso e amplo */
-            box-shadow: 0 0 5px #fff, 0 0 15px 8px #ff0000, 0 0 40px 15px #ff0033;
+            /* Brilho: Halo branco, Vermelho intenso, Vermelho espalhado */
+            box-shadow: 0 0 5px #fff, 0 0 15px 8px #ff0000, 0 0 45px 20px #ff0033;
             z-index: 5; opacity: 1; 
         }
-        /* Posição cravada nas laterais */
-        .taillight.left { left: 13%; } 
-        .taillight.right { right: 13%; }
+        /* Usa o ajuste horizontal lá do topo */
+        .taillight.left { left: var(--lateral-lanterna); } 
+        .taillight.right { right: var(--lateral-lanterna); }
 
         /* =========================================
            ANIMAÇÕES (TREPIDAÇÃO REALISTA)
@@ -181,21 +175,20 @@
         .pista-movimento { animation: scrollRoad 0.3s linear infinite; }
 
         /* =========================================
-           TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
+           TEMA CLARO E OUTRAS ABAS
            ========================================= */
         #view-panel.light-mode { background: #e2e8f0 !important; }
         #view-panel.light-mode .speed-value-new, #view-panel.light-mode .speed-unit-new, #view-panel.light-mode .time-text, #view-panel.light-mode .date-text { color: #1e293b !important; text-shadow: none !important; }
         #view-panel.light-mode .track { background: #94a3b8; border-color: #475569; }
         #view-panel.light-mode .track-lines { background-image: linear-gradient(to bottom, #475569 50%, transparent 50%); }
         #view-panel.light-mode #carroImg { mix-blend-mode: normal; }
-        #view-panel.light-mode .front-beam, #view-panel.light-mode .taillight { opacity: 0; }
+        #view-panel.light-mode .headlight-svg, #view-panel.light-mode .taillight { opacity: 0; }
 
-        /* OUTRAS ABAS (Ocultas) */
         #view-logo { display: none; }
         #view-car { display: none; }
         #view-logo.active { display: flex; justify-content: center; background: radial-gradient(circle at center, rgba(255,0,51,0.2) 0%, #000 70%); }
         #view-logo .logo-img-large { width: 100vw; height: 100vh; object-fit: cover; object-position: center; mix-blend-mode: screen; }
-        #view-car.active { display: flex; background: #000; }
+        #view-car.active { display: flex; background: var(--bg-dark); }
         .full-screen-display { display: flex; width: 100vw; height: 100vh; }
         .side-menu { width: 25vw; min-width: 250px; background: rgba(5,5,5,0.9); border-right: 1px solid rgba(255, 0, 51, 0.3); display: flex; flex-direction: column; padding: 80px 0 20px 0; z-index: 10; }
         .side-menu-btn { background: none; border: none; color: #aaa; text-align: left; padding: 20px 25px; font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
@@ -231,7 +224,6 @@
     <!-- ABA 1: PAINEL 3D PERFEITO E ANTI-BUG -->
     <div id="view-panel" class="view-section active">
         
-        <!-- DATA, HORA E TELA CHEIA -->
         <div class="top-right-container">
             <div class="datetime-block">
                 <div id="time-display" class="time-text">--:--:--</div>
@@ -245,7 +237,6 @@
             </button>
         </div>
 
-        <!-- VELOCÍMETRO GIGANTE -->
         <div class="speed-container-new">
             <div class="speed-value-new" id="velocidadeTxt">0</div>
             <div class="speed-unit-new">KM/H</div>
@@ -258,16 +249,26 @@
             </div>
         </div>
         
-        <!-- CARRO GIGANTE, FAROL EM V PURO E LANTERNAS NA LENTE -->
+        <!-- CARRO GIGANTE COM FAROL VETORIAL (NUNCA VAI BUGAR) -->
         <div class="car-wrapper carro-parado" id="carWrapper">
             
-            <!-- Faróis Dianteiros em V (Limpando a Pista) -->
-            <div class="front-beam left"></div>
-            <div class="front-beam right"></div>
+            <!-- Farol Dianteiro desenhado em Vetor 2D (Nasce das laterais do carro) -->
+            <svg class="headlight-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                    <linearGradient id="beamGlow" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0.85)" />
+                        <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                    </linearGradient>
+                </defs>
+                <!-- Feixe Esquerdo -->
+                <polygon points="28,100 32,100 -50,0 20,0" fill="url(#beamGlow)" />
+                <!-- Feixe Direito -->
+                <polygon points="72,100 68,100 150,0 80,0" fill="url(#beamGlow)" />
+            </svg>
 
             <img id="carroImg" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
             
-            <!-- Lanternas Traseiras (Pequenas e Cravadas na Lente) -->
+            <!-- Lanternas Traseiras (Cravadas e Ajustáveis) -->
             <div class="taillight left"></div>
             <div class="taillight right"></div>
         </div>
