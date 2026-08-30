@@ -12,7 +12,6 @@
             --neon-red: #ff0033;
             --neon-red-glow: rgba(255, 0, 51, 0.6);
             --bg-dark: #000;
-            --bg-panel: rgba(10, 0, 0, 0.85);
             --text-light: #fff;
             --text-dim: #aaa;
             --font-main: 'Oxanium', sans-serif;
@@ -54,10 +53,7 @@
             gap: 5px; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
         }
 
-        .menu-toggle:hover, .menu-toggle.active {
-            background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow);
-        }
-
+        .menu-toggle:hover, .menu-toggle.active { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
         .menu-line { width: 20px; height: 2px; background-color: #fff; transition: all 0.3s ease; }
         .menu-toggle.active .line1 { transform: translateY(7px) rotate(45deg); background-color: var(--neon-red); }
         .menu-toggle.active .line2 { opacity: 0; }
@@ -72,17 +68,11 @@
 
         .nav-btn {
             background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.3);
-            color: #fff; font-family: var(--font-accent);
-            font-size: clamp(9px, 1.2vh, 12px);
-            padding: 10px 20px; text-align: left;
-            border-radius: 12px; cursor: pointer; letter-spacing: 1px;
+            color: #fff; font-family: var(--font-accent); font-size: clamp(9px, 1.2vh, 12px);
+            padding: 10px 20px; text-align: left; border-radius: 12px; cursor: pointer; letter-spacing: 1px;
             backdrop-filter: blur(10px); transition: all 0.3s ease;
         }
-
-        .nav-btn.active {
-            background: rgba(255, 0, 51, 0.15); border-color: var(--neon-red);
-            box-shadow: 0 0 20px var(--neon-red-glow); color: var(--neon-red); font-weight: 700;
-        }
+        .nav-btn.active { background: rgba(255, 0, 51, 0.15); border-color: var(--neon-red); box-shadow: 0 0 20px var(--neon-red-glow); color: var(--neon-red); font-weight: 700; }
 
         .view-section {
             display: none; width: 100%; height: 100%;
@@ -92,8 +82,10 @@
         .view-section.active { display: flex; }
 
         /* =========================================
-           NOVOS ESTILOS DA ABA: PAINEL 3D (Substituídos)
+           PAINEL 3D (Com Modo Dia/Noite e Luzes)
            ========================================= */
+        #view-panel { transition: background 1s ease; }
+        
         .col-left { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
         .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; perspective: 600px; z-index: 1;}
         .col-right { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
@@ -101,21 +93,14 @@
         .speed-container-new { display: flex; flex-direction: column; align-items: center; }
         
         .speed-value-new {
-            font-family: 'Arial', 'Helvetica', sans-serif; /* Evita erro do zero */
-            font-size: clamp(100px, 25vh, 250px); /* Tamanho Gigante responsivo */
-            font-weight: bold;
-            color: #fff;
+            font-family: 'Arial', 'Helvetica', sans-serif; 
+            font-size: clamp(100px, 25vh, 250px); font-weight: bold; color: #fff;
             text-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red);
-            line-height: 0.9;
+            line-height: 0.9; transition: all 0.5s ease;
         }
-
         .speed-unit-new {
-            font-family: var(--font-accent);
-            font-size: clamp(20px, 4vh, 40px);
-            color: var(--neon-red);
-            letter-spacing: 10px;
-            text-shadow: 0 0 10px var(--neon-red);
-            margin-top: 15px;
+            font-family: var(--font-accent); font-size: clamp(20px, 4vh, 40px); color: var(--neon-red);
+            letter-spacing: 10px; text-shadow: 0 0 10px var(--neon-red); margin-top: 15px;
         }
 
         .track {
@@ -123,7 +108,7 @@
             background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.8) 40%, rgba(18,18,18,0.9) 100%);
             transform: rotateX(60deg); transform-origin: bottom center;
             border-left: 2px solid rgba(255, 0, 51, 0.3); border-right: 2px solid rgba(255, 0, 51, 0.3);
-            z-index: 0; overflow: hidden;
+            z-index: 0; overflow: hidden; transition: all 0.5s ease;
         }
 
         .track-lines {
@@ -133,21 +118,46 @@
         }
 
         #carroImg {
-            width: clamp(200px, 35vh, 320px); z-index: 2; margin-bottom: 50px;
+            width: clamp(200px, 35vh, 320px); z-index: 3; margin-bottom: 50px; position: relative;
             mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
             -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
+        }
+
+        /* EFEITO DE FARÓIS (Noite) */
+        .car-lights {
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+            width: clamp(200px, 35vh, 320px); height: 100%;
+            pointer-events: none; z-index: 2; display: none; /* Escondido por padrão */
+        }
+        
+        /* Luz iluminando a pista (Farol dianteiro) */
+        .headlights-beam {
+            position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
+            width: 300%; height: 400px;
+            background: radial-gradient(ellipse at bottom, rgba(255,255,220,0.2) 0%, transparent 60%);
+            filter: blur(15px); z-index: 1;
+        }
+        
+        /* Lanternas traseiras acesas */
+        .taillights {
+            position: absolute; bottom: 35px; left: 0; width: 100%; height: 40px;
+            display: flex; justify-content: space-between; padding: 0 15%; box-sizing: border-box; z-index: 4;
+        }
+        .taillight-glow {
+            width: 30px; height: 20px; background: rgba(255, 0, 0, 0.8);
+            border-radius: 50%; box-shadow: 0 0 25px 10px rgba(255, 0, 0, 0.6);
         }
 
         .glass-panel {
             background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2);
             border-radius: 20px; padding: 40px 30px; width: 100%;
             box-shadow: inset 0 0 20px rgba(255, 0, 51, 0.05), 0 10px 30px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; gap: 50px; backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; gap: 50px; backdrop-filter: blur(10px); transition: all 0.5s ease;
         }
 
         .widget { display: flex; flex-direction: column; gap: 10px; }
-        .widget .title { font-family: var(--font-accent); font-size: clamp(10px, 1.8vh, 14px); color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;}
-        .widget .value { font-family: var(--font-display); font-size: clamp(30px, 5vh, 45px); font-weight: 700; text-shadow: 0 0 10px currentColor; }
+        .widget .title { font-family: var(--font-accent); font-size: clamp(10px, 1.8vh, 14px); color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; transition: color 0.5s ease;}
+        .widget .value { font-family: var(--font-display); font-size: clamp(30px, 5vh, 45px); font-weight: 700; text-shadow: 0 0 10px currentColor; transition: color 0.5s ease;}
 
         .bar-container { width: 100%; height: 8px; background: rgba(34, 34, 34, 0.6); border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
         .bar-fill { height: 100%; border-radius: 5px; }
@@ -155,6 +165,17 @@
         .c-fuel .bar-fill { background: linear-gradient(90deg, var(--neon-red), #ffb700); width: 45%; box-shadow: 0 0 10px #ffb700; }
         .c-bat .value { color: #00ffaa; }
         .c-bat .bar-fill { background: linear-gradient(90deg, var(--neon-red), #00ffaa); width: 85%; box-shadow: 0 0 10px #00ffaa; }
+
+        /* =========================================
+           TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
+           ========================================= */
+        #view-panel.light-mode { background: radial-gradient(circle at center, #e2e8f0 0%, #cbd5e1 100%); z-index: 0; }
+        #view-panel.light-mode .speed-value-new { color: #1e293b; text-shadow: none; }
+        #view-panel.light-mode .glass-panel { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        #view-panel.light-mode .widget .title { color: #64748b; }
+        #view-panel.light-mode .widget .value { color: #0f172a !important; text-shadow: none !important; }
+        #view-panel.light-mode .track { background: linear-gradient(to bottom, transparent 0%, #94a3b8 40%, #64748b 100%); border-color: rgba(0,0,0,0.1); }
+        #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 50px, rgba(255, 255, 255, 0.9) 50px, rgba(255, 255, 255, 0.9) 120px); }
 
         @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 120px; } }
         @keyframes idleVibration { 0% { transform: translateY(0px); } 50% { transform: translateY(1px); } 100% { transform: translateY(0px); } }
@@ -165,36 +186,10 @@
         .pista-movimento { animation: scrollRoad 0.3s linear infinite; }
 
         /* =========================================
-           ESTILOS DAS OUTRAS ABAS (Mantidos Intactos)
+           ESTILOS DAS OUTRAS ABAS
            ========================================= */
         #view-logo { justify-content: center; padding: 0; background: radial-gradient(circle at center, rgba(255,0,51,0.2) 0%, #000 70%); }
         .logo-img-large { width: 100vw; height: 100vh; object-fit: cover; object-position: center; mix-blend-mode: screen; animation: pulse-logo 4s infinite alternate ease-in-out; }
-
-        .media-controls-container {
-            position: absolute; top: 4%; right: 4%; display: flex; gap: 15px; align-items: center;
-            background: transparent; border: none; padding: 0; box-shadow: none; z-index: 10;
-        }
-
-        .media-btn {
-            background: rgba(10, 0, 0, 0.85); border: none; width: 40px; height: 40px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
-        }
-
-        .media-btn:hover, .media-btn:active { transform: scale(1.1); background: rgba(20, 0, 0, 0.95); box-shadow: 0 0 20px var(--neon-red-glow); }
-        .media-btn svg { width: 22px; height: 22px; fill: var(--neon-red); filter: drop-shadow(0 0 3px var(--neon-red)); transition: all 0.3s; }
-        .media-btn:hover svg { fill: #ff6680; filter: drop-shadow(0 0 8px #ff6680); }
-
-        .now-playing-container {
-            position: absolute; top: 12%; right: 4%; display: flex; flex-direction: column; align-items: flex-end;
-            text-align: right; max-width: 280px; z-index: 10; background: rgba(10, 0, 0, 0.7); padding: 8px 15px; border-radius: 12px;
-            border: 1px solid rgba(255, 0, 51, 0.2); backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            opacity: 0; transition: opacity 0.5s ease;
-        }
-
-        .song-title { font-family: var(--font-main); font-weight: 700; color: #fff; font-size: clamp(12px, 2.2vh, 16px); text-shadow: 0 0 10px rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
-        .song-artist { font-family: var(--font-accent); font-size: clamp(9px, 1.5vh, 11px); color: var(--neon-red); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-top: 4px; opacity: 0.9; }
-
         #view-car { justify-content: center; align-items: center; padding: 0; }
 
         .full-screen-display { display: flex; width: 100vw; height: 100vh; background: var(--bg-dark); z-index: 5; }
@@ -218,19 +213,13 @@
             background: radial-gradient(circle at right, rgba(255,0,51,0.05) 0%, transparent 60%);
             position: relative; overflow: hidden;
         }
-
-        .car-images-container {
-            position: absolute; right: 2%; top: 5%; bottom: 5%; width: 33%;
-            display: flex; flex-direction: column; justify-content: space-between; gap: clamp(10px, 2vh, 20px);
-            z-index: 0; opacity: 0.7; pointer-events: none;
-        }
+        .car-images-container { position: absolute; right: 2%; top: 5%; bottom: 5%; width: 33%; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(10px, 2vh, 20px); z-index: 0; opacity: 0.7; pointer-events: none; }
         .car-image-box { flex: 1; border-radius: 15px; border: 1px solid rgba(255,0,51,0.1); background: rgba(10,10,10,0.5); overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; }
         .car-image-box img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; }
 
         .info-section { display: none; flex-direction: column; height: 100%; z-index: 1; width: 62%; justify-content: flex-start; padding: 1% 0; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
         .info-section::-webkit-scrollbar { display: none; }
         .info-section.active { display: flex; animation: fadeInRight 0.5s ease; }
-
         .info-title { font-family: var(--font-accent); font-size: clamp(18px, 3.5vh, 40px); color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red-glow); margin-bottom: clamp(10px, 2vh, 25px); font-weight: 700; border-bottom: 1px solid rgba(255,0,51,0.3); padding-bottom: clamp(5px, 1vh, 10px); display: inline-block; flex-shrink: 0; }
         .info-box-container { display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 12px); justify-content: flex-start; padding-bottom: 20px; }
         .info-box { background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2); border-radius: 12px; padding: clamp(8px, 1.5vh, 15px) clamp(10px, 2vw, 20px); box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; transition: transform 0.2s, border-color 0.2s; flex-shrink: 0; }
@@ -239,19 +228,6 @@
         .info-box-content strong { color: #fff; font-family: var(--font-main); font-weight: 700; margin-right: 8px; }
         .info-box-content em { color: #888; font-style: italic; font-size: 0.9em; }
 
-        #info-itens .info-box-container { gap: clamp(4px, 1vh, 8px); }
-        #info-itens .info-box { padding: clamp(6px, 1.2vh, 12px) clamp(10px, 2vw, 15px); }
-        #info-itens .info-box-content { font-size: clamp(10px, 1.8vh, 16px); }
-
-        .permission-alert {
-            display: none; position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
-            background: rgba(200, 0, 30, 0.9); border: 2px solid #fff; color: #fff; padding: 15px 30px; border-radius: 12px;
-            font-family: var(--font-main); font-weight: 700; font-size: clamp(14px, 2.5vh, 20px); cursor: pointer; z-index: 1000; box-shadow: 0 0 30px rgba(255, 0, 51, 0.8);
-            animation: pulse-alert 1s infinite alternate; text-align: center;
-        }
-        .permission-alert span { display: block; font-size: 0.8em; font-weight: normal; margin-top: 5px; opacity: 0.9; }
-
-        @keyframes pulse-alert { from { transform: translateX(-50%) scale(1); box-shadow: 0 0 15px #ff0033; } to { transform: translateX(-50%) scale(1.05); box-shadow: 0 0 40px #ff0033; } }
         @keyframes fadeInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes pulse-logo { 0% { filter: drop-shadow(0 0 20px rgba(255, 0, 51, 0.2)); } 100% { filter: drop-shadow(0 0 50px rgba(255, 0, 51, 0.6)); } }
     </style>
@@ -273,9 +249,9 @@
         </div>
     </div>
 
-    <!-- ABA 1: PAINEL 3D NOVO -->
+    <!-- ABA 1: PAINEL 3D NOVO COM DIA/NOITE -->
     <div id="view-panel" class="view-section active">
-        <!-- ESQUERDA: Velocímetro Gigante -->
+        <!-- ESQUERDA: Velocímetro -->
         <div class="col-left">
             <div class="speed-container-new">
                 <div class="speed-value-new" id="velocidadeTxt">0</div>
@@ -288,10 +264,20 @@
             <div class="track">
                 <div id="trackLines" class="track-lines"></div>
             </div>
+            
+            <!-- Faróis do carro (Visíveis apenas a noite) -->
+            <div id="car-lights" class="car-lights">
+                <div class="headlights-beam"></div>
+                <div class="taillights">
+                    <div class="taillight-glow"></div>
+                    <div class="taillight-glow"></div>
+                </div>
+            </div>
+
             <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
         </div>
 
-        <!-- DIREITA: Informações (Combustível e Bateria) -->
+        <!-- DIREITA: Informações -->
         <div class="col-right">
             <div class="glass-panel">
                 <div class="widget c-fuel">
@@ -308,34 +294,12 @@
         </div>
     </div>
 
-    <!-- ABA 2: LOGO / MÍDIA (Intacta) -->
+    <!-- ABA 2: LOGO / MÍDIA (Botões de Mídia Removidos) -->
     <div id="view-logo" class="view-section">
         <img src="https://i.postimg.cc/pT5SLRTR/Gemini-Generated-Image-3en1f93en1f93en1.jpg" class="logo-img-large" alt="Chevrolet Logo Wallpaper">
-
-        <div id="permission-alert" class="permission-alert" onclick="requestAndroidPermission()">
-            ⚠️ PERMISSÃO DE ÁUDIO NECESSÁRIA ⚠️
-            <span>Toque aqui para autorizar o app ler as notificações e controlar a música</span>
-        </div>
-
-        <div class="media-controls-container">
-            <button class="media-btn" id="btn-prev" onclick="controlMedia('previoustrack')">
-                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-            </button>
-            <button class="media-btn" id="btn-playpause" onclick="controlMedia('playpause')">
-                <svg viewBox="0 0 24 24"><path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/></svg>
-            </button>
-            <button class="media-btn" id="btn-next" onclick="controlMedia('nexttrack')">
-                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-            </button>
-        </div>
-
-        <div class="now-playing-container" id="now-playing-box">
-            <div class="song-title" id="song-title">Aguardando Música...</div>
-            <div class="song-artist" id="song-artist">-</div>
-        </div>
     </div>
 
-    <!-- ABA 3: MEU AGILE (Intacta) -->
+    <!-- ABA 3: MEU AGILE -->
     <div id="view-car" class="view-section">
         <div class="full-screen-display">
             <div class="side-menu">
@@ -354,14 +318,14 @@
                         <div class="info-box"><div class="info-box-content"><strong>Torque:</strong> 13,5 kgf.m (Etanol) / 13,2 kgf.m (Gasolina) a 3.200 rpm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Velocidade Máxima:</strong> 166 km/h</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Aceleração (0 a 100 km/h):</strong> 12,5 segundos</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Câmbio:</strong> Manual de 5 velocidades (ou automatizado Easytronic como opcional)</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Câmbio:</strong> Manual de 5 velocidades</div></div>
                     </div>
                 </div>
 
                 <div id="info-consumo" class="info-section">
                     <div class="info-title">Consumo e Autonomia</div>
                     <div class="info-box-container">
-                        <div class="info-box"><div class="info-box-content"><strong>Consumo Urbano:</strong> 6,6 km/l (Etanol) / 9 km/l (Gasolina) <em>(dados médios gerais)</em></div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Consumo Urbano:</strong> 6,6 km/l (Etanol) / 9 km/l (Gasolina)</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Consumo Rodoviário:</strong> 8,2 km/l (Etanol) / 11,7 km/l (Gasolina)</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Tanque de Combustível:</strong> 54 litros</div></div>
                     </div>
@@ -373,10 +337,7 @@
                         <div class="info-box"><div class="info-box-content"><strong>Comprimento:</strong> 3.996 mm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Largura:</strong> 1.683 mm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Altura:</strong> 1.474 mm</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Distância entre-eixos:</strong> 2.543 mm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Porta-malas:</strong> 327 litros</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Peso:</strong> 1.075 kg</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Altura livre do solo:</strong> 160 mm</div></div>
                     </div>
                 </div>
 
@@ -386,19 +347,12 @@
                         <div class="info-box"><div class="info-box-content"><strong>Direção:</strong> Hidráulica com regulagem de altura</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Ar-condicionado:</strong> Digital</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Segurança:</strong> Freios ABS com EBD e airbag duplo</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Conforto:</strong> Piloto automático (cruise control), acendimento automático dos faróis</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Vidros e Retrovisores:</strong> Vidros elétricos nas quatro portas e retrovisores com ajuste elétrico</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Entretenimento:</strong> Sistema de som integrado com entrada USB, auxiliar e conexão Bluetooth</div></div>
                     </div>
                 </div>
 
                 <div class="car-images-container">
-                    <div class="car-image-box">
-                        <img id="img-front-disp" src="1.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE+FRENTE'" alt="Agile Frente">
-                    </div>
-                    <div class="car-image-box">
-                        <img id="img-rear-disp" src="Captura de tela 2026-08-23 002723.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE+TRASEIRA'" alt="Agile Traseira">
-                    </div>
+                    <div class="car-image-box"><img src="1.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE'" alt="Agile Frente"></div>
+                    <div class="car-image-box"><img src="Captura de tela 2026-08-23 002723.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE'" alt="Agile Traseira"></div>
                 </div>
             </div>
         </div>
@@ -406,7 +360,7 @@
 </div>
 
 <script>
-    // --- LÓGICA DOS MENUS (Intacta) ---
+    // --- LÓGICA DOS MENUS ---
     function toggleMenu() {
         const nav = document.getElementById('main-nav');
         const btn = document.getElementById('menu-btn');
@@ -427,10 +381,29 @@
     function switchInfoView(sectionId, btnElement) {
         document.querySelectorAll('.info-section').forEach(section => section.classList.remove('active'));
         document.querySelectorAll('.side-menu-btn').forEach(btn => btn.classList.remove('active'));
-
         document.getElementById(sectionId).classList.add('active');
         btnElement.classList.add('active');
     }
+
+    // --- LÓGICA DE DIA E NOITE (Luzes automáticas) ---
+    function atualizarModoDiaNoite() {
+        const horaAtual = new Date().getHours();
+        const painel = document.getElementById('view-panel');
+        const luzesCarro = document.getElementById('car-lights');
+        
+        // Se a hora for maior ou igual a 6 (da manhã) e menor que 18 (6 da tarde) = MODO DIA
+        if (horaAtual >= 6 && horaAtual < 18) {
+            painel.classList.add('light-mode');
+            luzesCarro.style.display = 'none'; // Apaga faróis
+        } else {
+            // MODO NOITE
+            painel.classList.remove('light-mode');
+            luzesCarro.style.display = 'block'; // Acende faróis
+        }
+    }
+    
+    atualizarModoDiaNoite();
+    setInterval(atualizarModoDiaNoite, 60000); // Verifica a hora a cada 1 minuto
 
     // --- NOVA LÓGICA DO GPS E ANIMAÇÃO DA PISTA 3D ---
     const velDisplay = document.getElementById('velocidadeTxt'); 
@@ -470,53 +443,7 @@
         }
     }
     
-    // Inicia a leitura do velocímetro real
     iniciarGPS();
-
-    // --- LÓGICA DE CONTROLE DE MÍDIA ANDROID (Intacta) ---
-    function checkAndroidPermissions() {
-        if (window.AndroidMediaController && typeof window.AndroidMediaController.checkPermission === "function") {
-            let hasPermission = window.AndroidMediaController.checkPermission();
-            let alertBox = document.getElementById('permission-alert');
-            if (!hasPermission) { alertBox.style.display = 'block'; } else { alertBox.style.display = 'none'; }
-        }
-    }
-
-    function requestAndroidPermission() {
-        if (window.AndroidMediaController && typeof window.AndroidMediaController.requestPermission === "function") {
-            window.AndroidMediaController.requestPermission();
-        }
-    }
-
-    setInterval(checkAndroidPermissions, 2000);
-
-    setInterval(() => {
-        if (window.AndroidMediaController && typeof window.AndroidMediaController.getNowPlaying === "function") {
-            let data = window.AndroidMediaController.getNowPlaying();
-            let box = document.getElementById('now-playing-box');
-
-            if (data && data !== "{}") {
-                try {
-                    let parsed = JSON.parse(data);
-                    if(parsed.title && parsed.title !== "Desconhecido") {
-                        document.getElementById('song-title').innerText = parsed.title;
-                        document.getElementById('song-artist').innerText = parsed.artist;
-                        box.style.opacity = '1';
-                    } else {
-                        box.style.opacity = '0';
-                    }
-                } catch(e) { box.style.opacity = '0'; }
-            } else { box.style.opacity = '0'; }
-        }
-    }, 1000);
-
-    function controlMedia(action) {
-        if (window.AndroidMediaController) {
-           window.AndroidMediaController.sendCommand(action);
-        } else {
-            console.log("Comando de áudio enviado (Você está rodando no PC/Navegador):", action);
-        }
-    }
 </script>
 </body>
 </html>
