@@ -11,7 +11,7 @@
         :root {
             --neon-red: #ff0033;
             --neon-red-glow: rgba(255, 0, 51, 0.6);
-            --bg-dark: #030303;
+            --bg-dark: #020202; /* Fundo mais escuro e realista */
             --text-light: #fff;
             --text-dim: #aaa;
             --font-main: 'Oxanium', sans-serif;
@@ -29,16 +29,9 @@
 
         .multimedia-screen {
             width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, #1a0005 0%, #020000 100%);
+            background: #020202;
             display: flex; justify-content: space-between; align-items: center;
             padding: 2% 4%; box-sizing: border-box; position: relative;
-        }
-
-        .bg-grid {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(255, 0, 51, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 51, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: 0; opacity: 0.5;
-            perspective: 1000px; transform: rotateX(60deg) translateY(-50px) translateZ(-200px);
         }
 
         /* MENUS */
@@ -69,41 +62,28 @@
         .view-section.active { display: flex; }
 
         /* =========================================
-           PAINEL 3D (Com Pista Completa e Luzes Reais)
+           PAINEL 3D REALISTA
            ========================================= */
         #view-panel { transition: background 1s ease; position: relative; }
         
         .col-left { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
-        .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; perspective: 800px; z-index: 1;}
+        .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; perspective: 600px; z-index: 1;}
         .col-right { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
 
-        /* DATA E HORA NO TOPO (MODERNO E SEM BORDA) */
+        /* DATA E HORA NO TOPO */
         .top-right-container {
             position: absolute; top: 4%; right: 4%; z-index: 100;
             display: flex; align-items: flex-start; gap: 15px;
         }
-        
-        .datetime-block {
-            display: flex; flex-direction: column; align-items: flex-end; gap: 5px;
-        }
-        
-        .time-text {
-            font-family: var(--font-main); font-size: clamp(24px, 4vh, 36px); font-weight: 700;
-            color: #00ffaa; text-shadow: 0 0 15px #00ffaa; line-height: 1; transition: color 0.5s ease;
-        }
-        
-        .date-text {
-            font-family: var(--font-main); font-size: clamp(14px, 2vh, 18px); font-weight: 400;
-            color: #ffb700; text-shadow: 0 0 10px #ffb700; line-height: 1; transition: color 0.5s ease;
-        }
+        .datetime-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .time-text { font-family: var(--font-main); font-size: clamp(24px, 4vh, 36px); font-weight: 700; color: #00ffaa; text-shadow: 0 0 15px #00ffaa; line-height: 1; transition: color 0.5s ease; }
+        .date-text { font-family: var(--font-main); font-size: clamp(14px, 2vh, 18px); font-weight: 400; color: #ffb700; text-shadow: 0 0 10px #ffb700; line-height: 1; transition: color 0.5s ease; }
 
         /* BOTÃO DE TELA CHEIA */
         .fullscreen-btn {
             background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5);
-            width: 40px; height: 40px; border-radius: 8px; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
-            padding: 0; outline: none;
+            width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2); padding: 0; outline: none;
         }
         .fullscreen-btn:hover { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
         .fullscreen-btn svg { width: 22px; height: 22px; stroke: #fff; transition: stroke 0.3s ease; }
@@ -114,97 +94,124 @@
         .speed-value-new { font-family: 'Arial', sans-serif; font-size: clamp(100px, 25vh, 250px); font-weight: bold; color: #fff; text-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red); line-height: 0.9; transition: all 0.5s ease; }
         .speed-unit-new { font-family: var(--font-accent); font-size: clamp(20px, 4vh, 40px); color: var(--neon-red); letter-spacing: 10px; text-shadow: 0 0 10px var(--neon-red); margin-top: 15px; }
 
-        /* PISTA 3D COMPLETA */
+        /* =========================================
+           PISTA E HORIZONTE REALISTAS
+           ========================================= */
         .track-container {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
-            perspective: 1000px; display: flex; justify-content: center; overflow: hidden; z-index: 0;
+            perspective: 800px; display: flex; justify-content: center; overflow: hidden; z-index: 0;
         }
         
         .track {
-            position: absolute; bottom: -20px; width: 200%; height: 150%;
-            background: #0a0a0a;
-            transform: rotateX(75deg); transform-origin: bottom center;
-            border-left: 4px solid var(--neon-red);
-            border-right: 4px solid var(--neon-red);
-            box-shadow: 0 0 50px rgba(255,0,51,0.2) inset;
+            position: absolute; bottom: -50px; width: 300%; height: 200%;
+            background: #080808; /* Cor de asfalto escuro */
+            transform: rotateX(78deg); transform-origin: bottom center;
+            /* Bordas da pista muito mais sutis e realistas */
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 100px rgba(0,0,0,1);
             transition: all 0.5s ease;
         }
 
         .track-lines {
             position: absolute; left: 50%; transform: translateX(-50%);
-            width: 12px; height: 100%;
-            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 80px, rgba(255, 255, 255, 0.8) 80px, rgba(255, 255, 255, 0.8) 180px);
+            width: 8px; height: 100%;
+            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 150px, rgba(255, 255, 255, 0.6) 150px, rgba(255, 255, 255, 0.6) 300px);
             background-size: 100% 100%;
+            filter: blur(1px); /* Tinta um pouco desfocada pelo movimento */
         }
 
+        /* Efeito de escuridão no fundo da pista (Horizonte fechado) */
         .track-horizon-fade {
-            position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to bottom, var(--bg-dark) 0%, transparent 100%);
-            z-index: 1; pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 60%;
+            background: linear-gradient(to bottom, #020202 0%, rgba(2,2,2,0.9) 40%, transparent 100%);
+            z-index: 2; pointer-events: none;
         }
 
-        /* CONTAINER DO CARRO E LUZES */
+        /* =========================================
+           CARRO MAIOR E MÁSCARA CORRIGIDA
+           ========================================= */
         .car-wrapper {
-            position: relative; z-index: 3; margin-bottom: 30px;
-            display: flex; justify-content: center; width: clamp(200px, 35vh, 320px);
+            position: relative; z-index: 4; margin-bottom: 20px;
+            display: flex; justify-content: center; 
+            width: clamp(280px, 45vh, 480px); /* Carro bem maior */
         }
 
         #carroImg {
-            width: 100%; z-index: 3; position: relative;
-            mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
+            width: 100%; z-index: 4; position: relative; display: block;
+            /* Máscara agressiva focada no centro da imagem para matar o quadrado preto da IA */
+            -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 55%, black 45%, transparent 75%);
+            mask-image: radial-gradient(ellipse 70% 80% at 50% 55%, black 45%, transparent 75%);
         }
 
-        /* FAROL DIANTEIRO */
+        /* =========================================
+           FARÓIS DIANTEIROS E TRASEIROS REALISTAS
+           ========================================= */
+        
+        /* Feixe de luz longo projetado para frente */
         .headlight-beam {
-            position: absolute; bottom: 50%; left: -50%; width: 200%; height: 400px;
-            background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.9) 0%, rgba(200, 240, 255, 0.4) 40%, transparent 70%);
-            transform: perspective(400px) rotateX(65deg);
-            transform-origin: bottom center;
-            z-index: 1; filter: blur(8px);
+            position: absolute; bottom: 30%; left: 50%;
+            transform: translateX(-50%);
+            width: 150vw; /* Abre como um cone */
+            height: 80vh; /* Alcance profundo */
+            /* Gradiente em formato de trapézio para simular o facho no chão */
+            background: linear-gradient(to top, rgba(200, 230, 255, 0.45) 0%, rgba(200, 230, 255, 0.05) 50%, transparent 100%);
+            clip-path: polygon(25% 100%, 75% 100%, 100% 0, 0 0); /* Corte em formato de farol */
+            filter: blur(15px);
+            z-index: 1; pointer-events: none;
             opacity: 1; transition: opacity 0.5s ease;
         }
         
-        /* LANTERNAS TRASEIRAS */
+        /* LEDs Vermelhos sobre as lanternas traseiras */
         .taillight {
-            position: absolute; bottom: 22%; width: 12%; height: 8%;
-            background: #ff0000; border-radius: 50%;
-            box-shadow: 0 0 20px 10px #ff0000, 0 0 40px 15px #ff0033;
-            z-index: 4; mix-blend-mode: screen;
+            position: absolute; 
+            bottom: 26%; /* Altura exata da lanterna na imagem */
+            width: 10%; height: 9%;
+            background: #ff0000;
+            border-radius: 40%;
+            /* Brilho extremo e espalhado */
+            box-shadow: 0 0 25px 15px rgba(255, 0, 0, 0.9), 0 0 60px 25px rgba(255, 0, 51, 0.7);
+            z-index: 5; 
+            mix-blend-mode: screen; /* Faz a luz se misturar com o reflexo do carro real */
             opacity: 1; transition: opacity 0.5s ease;
         }
-        .taillight.left { left: 18%; }
-        .taillight.right { right: 18%; }
+        /* Distância horizontal exata do Agile */
+        .taillight.left { left: 23%; }
+        .taillight.right { right: 23%; }
+
 
         /* =========================================
            TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
            ========================================= */
-        #view-panel.light-mode { background: radial-gradient(circle at center, #e2e8f0 0%, #cbd5e1 100%); }
+        #view-panel.light-mode { background: #e2e8f0; }
         #view-panel.light-mode .speed-value-new { color: #1e293b; text-shadow: none; }
         
-        /* Cores escuras para a Data, Hora e Botão no Modo Dia */
         #view-panel.light-mode .time-text,
         #view-panel.light-mode .date-text { color: #0f172a !important; text-shadow: none !important; }
         #view-panel.light-mode .fullscreen-btn { background: rgba(255, 255, 255, 0.7); border-color: rgba(0,0,0,0.2); }
         #view-panel.light-mode .fullscreen-btn svg { stroke: #0f172a; }
 
-        /* Pista de Dia */
-        #view-panel.light-mode .track { background: #64748b; border-color: transparent; box-shadow: none; }
-        #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 80px, rgba(255, 255, 255, 0.9) 80px, rgba(255, 255, 255, 0.9) 180px); }
-        #view-panel.light-mode .track-horizon-fade { background: linear-gradient(to bottom, #cbd5e1 0%, transparent 100%); }
+        /* Pista Clara de Dia */
+        #view-panel.light-mode .track { background: #94a3b8; border-color: transparent; box-shadow: none; }
+        #view-panel.light-mode .track-lines { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 150px, rgba(255, 255, 255, 0.9) 150px, rgba(255, 255, 255, 0.9) 300px); }
+        #view-panel.light-mode .track-horizon-fade { background: linear-gradient(to bottom, #e2e8f0 0%, transparent 100%); }
 
-        /* Apagar Luzes de Dia */
+        /* Apagar Todas as Luzes de Dia */
         #view-panel.light-mode .headlight-beam,
         #view-panel.light-mode .taillight { opacity: 0; }
 
-        /* ANIMAÇÕES */
-        @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 260px; } }
+
+        /* =========================================
+           ANIMAÇÕES (Vibração e Pista Rolando)
+           ========================================= */
+        @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 300px; } }
         @keyframes idleVibration { 0% { transform: translateY(0px); } 50% { transform: translateY(1px); } 100% { transform: translateY(0px); } }
         @keyframes drivingVibration { 0% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-3px) rotate(-0.5deg); } 50% { transform: translateY(1px) rotate(0deg); } 75% { transform: translateY(-2px) rotate(0.5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
 
         .carro-parado { animation: idleVibration 0.1s infinite; }
         .carro-andando { animation: drivingVibration 0.3s infinite; }
         .pista-movimento { animation: scrollRoad 0.3s linear infinite; }
+
 
         /* =========================================
            ESTILOS DAS OUTRAS ABAS (Mantidos)
@@ -254,7 +261,7 @@
         </div>
     </div>
 
-    <!-- ABA 1: PAINEL 3D -->
+    <!-- ABA 1: PAINEL 3D REALISTA -->
     <div id="view-panel" class="view-section active">
         
         <!-- DATA, HORA E TELA CHEIA (TOPO DIREITO) -->
@@ -279,7 +286,7 @@
             </div>
         </div>
 
-        <!-- CENTRO: Pista 3D e Carro com Luzes -->
+        <!-- CENTRO: Pista 3D Realista e Carro Maior com Luzes -->
         <div class="col-center">
             
             <div class="track-container">
@@ -290,20 +297,20 @@
             </div>
             
             <div class="car-wrapper">
-                <!-- Luz Branca Frontal -->
+                <!-- Facho de Luz Branca e Forte (Farol) -->
                 <div class="headlight-beam"></div>
                 
                 <!-- Imagem do Carro -->
                 <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
                 
-                <!-- Lanternas Traseiras -->
+                <!-- Lanternas Traseiras (Sobrepostas perfeitamente) -->
                 <div class="taillight left"></div>
                 <div class="taillight right"></div>
             </div>
 
         </div>
 
-        <!-- DIREITA: Coluna vazia para manter o carro perfeitamente no centro -->
+        <!-- DIREITA: Vazia para centralizar o layout -->
         <div class="col-right"></div>
     </div>
 
@@ -416,11 +423,9 @@
         const horaAtual = new Date().getHours();
         const painel = document.getElementById('view-panel');
         
-        // MODO DIA: Entre 6h e 17h59
         if (horaAtual >= 6 && horaAtual < 18) {
             painel.classList.add('light-mode');
         } else {
-            // MODO NOITE
             painel.classList.remove('light-mode');
         }
     }
