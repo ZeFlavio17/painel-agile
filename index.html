@@ -130,7 +130,6 @@
             pointer-events: none; z-index: 2; display: none; /* Escondido por padrão */
         }
         
-        /* Luz iluminando a pista (Farol dianteiro) */
         .headlights-beam {
             position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
             width: 300%; height: 400px;
@@ -138,7 +137,6 @@
             filter: blur(15px); z-index: 1;
         }
         
-        /* Lanternas traseiras acesas */
         .taillights {
             position: absolute; bottom: 35px; left: 0; width: 100%; height: 40px;
             display: flex; justify-content: space-between; padding: 0 15%; box-sizing: border-box; z-index: 4;
@@ -152,19 +150,16 @@
             background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2);
             border-radius: 20px; padding: 40px 30px; width: 100%;
             box-shadow: inset 0 0 20px rgba(255, 0, 51, 0.05), 0 10px 30px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; gap: 50px; backdrop-filter: blur(10px); transition: all 0.5s ease;
+            display: flex; flex-direction: column; gap: 40px; backdrop-filter: blur(10px); transition: all 0.5s ease;
         }
 
         .widget { display: flex; flex-direction: column; gap: 10px; }
         .widget .title { font-family: var(--font-accent); font-size: clamp(10px, 1.8vh, 14px); color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; transition: color 0.5s ease;}
-        .widget .value { font-family: var(--font-display); font-size: clamp(30px, 5vh, 45px); font-weight: 700; text-shadow: 0 0 10px currentColor; transition: color 0.5s ease;}
+        .widget .value { font-family: var(--font-display); font-size: clamp(25px, 4vh, 38px); font-weight: 700; text-shadow: 0 0 10px currentColor; transition: color 0.5s ease;}
 
-        .bar-container { width: 100%; height: 8px; background: rgba(34, 34, 34, 0.6); border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-        .bar-fill { height: 100%; border-radius: 5px; }
-        .c-fuel .value { color: #ffb700; }
-        .c-fuel .bar-fill { background: linear-gradient(90deg, var(--neon-red), #ffb700); width: 45%; box-shadow: 0 0 10px #ffb700; }
-        .c-bat .value { color: #00ffaa; }
-        .c-bat .bar-fill { background: linear-gradient(90deg, var(--neon-red), #00ffaa); width: 85%; box-shadow: 0 0 10px #00ffaa; }
+        /* Cores Neon Data e Hora */
+        .c-time .value { color: #00ffaa; text-shadow: 0 0 15px #00ffaa; }
+        .c-date .value { color: #ffb700; text-shadow: 0 0 15px #ffb700; }
 
         /* =========================================
            TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
@@ -249,7 +244,7 @@
         </div>
     </div>
 
-    <!-- ABA 1: PAINEL 3D NOVO COM DIA/NOITE -->
+    <!-- ABA 1: PAINEL 3D NOVO COM DIA/NOITE E RELÓGIO -->
     <div id="view-panel" class="view-section active">
         <!-- ESQUERDA: Velocímetro -->
         <div class="col-left">
@@ -277,24 +272,22 @@
             <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
         </div>
 
-        <!-- DIREITA: Informações -->
+        <!-- DIREITA: Data e Hora -->
         <div class="col-right">
             <div class="glass-panel">
-                <div class="widget c-fuel">
-                    <div class="title">Combustível</div>
-                    <div class="value">45%</div>
-                    <div class="bar-container"><div class="bar-fill"></div></div>
+                <div class="widget c-time">
+                    <div class="title">HORA LOCAL</div>
+                    <div class="value" id="time-display">--:--:--</div>
                 </div>
-                <div class="widget c-bat">
-                    <div class="title">Bateria</div>
-                    <div class="value">13.8V</div>
-                    <div class="bar-container"><div class="bar-fill"></div></div>
+                <div class="widget c-date">
+                    <div class="title">DATA</div>
+                    <div class="value" id="date-display">--/--/----</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ABA 2: LOGO / MÍDIA (Botões de Mídia Removidos) -->
+    <!-- ABA 2: LOGO / MÍDIA -->
     <div id="view-logo" class="view-section">
         <img src="https://i.postimg.cc/pT5SLRTR/Gemini-Generated-Image-3en1f93en1f93en1.jpg" class="logo-img-large" alt="Chevrolet Logo Wallpaper">
     </div>
@@ -404,6 +397,30 @@
     
     atualizarModoDiaNoite();
     setInterval(atualizarModoDiaNoite, 60000); // Verifica a hora a cada 1 minuto
+
+    // --- LÓGICA DE HORA E DATA EM TEMPO REAL ---
+    function atualizarRelogio() {
+        const agora = new Date();
+        const timeElement = document.getElementById('time-display');
+        const dateElement = document.getElementById('date-display');
+
+        if(timeElement && dateElement) {
+            // Formatar Hora
+            const horas = String(agora.getHours()).padStart(2, '0');
+            const minutos = String(agora.getMinutes()).padStart(2, '0');
+            const segundos = String(agora.getSeconds()).padStart(2, '0');
+            timeElement.innerText = `${horas}:${minutos}:${segundos}`;
+
+            // Formatar Data
+            const dia = String(agora.getDate()).padStart(2, '0');
+            const mes = String(agora.getMonth() + 1).padStart(2, '0');
+            const ano = agora.getFullYear();
+            dateElement.innerText = `${dia}/${mes}/${ano}`;
+        }
+    }
+
+    atualizarRelogio();
+    setInterval(atualizarRelogio, 1000); // Atualiza o relógio a cada 1 segundo
 
     // --- NOVA LÓGICA DO GPS E ANIMAÇÃO DA PISTA 3D ---
     const velDisplay = document.getElementById('velocidadeTxt'); 
