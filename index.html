@@ -12,7 +12,6 @@
             --neon-red: #ff0033;
             --neon-red-glow: rgba(255, 0, 51, 0.6);
             --bg-dark: #000000;
-            --text-light: #fff;
             --font-main: 'Oxanium', sans-serif;
             --font-display: 'Orbitron', sans-serif;
             --font-accent: 'Michroma', sans-serif;
@@ -20,19 +19,17 @@
 
         body, html {
             margin: 0; padding: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-dark) !important; color: var(--text-light);
+            background-color: var(--bg-dark) !important; 
             font-family: var(--font-main);
             overflow: hidden; user-select: none;
-            display: flex; justify-content: center; align-items: center;
         }
 
         .multimedia-screen {
-            width: 100vw; height: 100vh; background: #000 !important;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 2% 4%; box-sizing: border-box; position: relative;
+            width: 100vw; height: 100vh; background: #000000 !important;
+            position: relative; overflow: hidden;
         }
 
-        /* MENUS LATERAL E SUPERIOR */
+        /* MENUS (Mantidos) */
         .menu-container { position: absolute; top: 4%; left: 4%; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
         .menu-toggle { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2); }
         .menu-toggle:hover, .menu-toggle.active { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
@@ -40,106 +37,101 @@
         .menu-toggle.active .line1 { transform: translateY(7px) rotate(45deg); background-color: var(--neon-red); }
         .menu-toggle.active .line2 { opacity: 0; }
         .menu-toggle.active .line3 { transform: translateY(-7px) rotate(-45deg); background-color: var(--neon-red); }
-
         .top-nav { display: flex; flex-direction: column; gap: 10px; opacity: 0; pointer-events: none; transform: translateX(-20px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .top-nav.open { opacity: 1; pointer-events: auto; transform: translateX(0); }
         .nav-btn { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.3); color: #fff; font-family: var(--font-accent); font-size: clamp(9px, 1.2vh, 12px); padding: 10px 20px; text-align: left; border-radius: 12px; cursor: pointer; letter-spacing: 1px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
         .nav-btn.active { background: rgba(255, 0, 51, 0.15); border-color: var(--neon-red); box-shadow: 0 0 20px var(--neon-red-glow); color: var(--neon-red); font-weight: 700; }
 
-        .view-section { display: none; width: 100%; height: 100%; justify-content: space-between; align-items: center; position: absolute; top: 0; left: 0; padding: 2% 4%; box-sizing: border-box; }
-        .view-section.active { display: flex; }
+        .view-section { display: none; width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; }
+        .view-section.active { display: block; }
 
         /* =========================================
-           PAINEL 3D (CÓDIGO ANTI-BUG)
+           PAINEL 3D - ARQUITETURA BLINDADA (ABSOLUTA)
            ========================================= */
-        #view-panel { background: #000 !important; position: relative; }
-        
-        .col-left { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
-        .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; z-index: 1;}
-        .col-right { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
+        #view-panel { background: #000000 !important; }
 
-        /* DATA E HORA (FORMATO DO VELOCÍMETRO) */
+        /* 1. DATA E HORA E TELA CHEIA (TOPO DIREITA) */
         .top-right-container { position: absolute; top: 4%; right: 4%; z-index: 100; display: flex; align-items: flex-start; gap: 15px; }
         .datetime-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
         
-        .time-text, .date-text { font-family: 'Arial', sans-serif; color: #fff; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); line-height: 1; transition: all 0.5s ease; }
-        .time-text { font-size: clamp(24px, 4vh, 40px); font-weight: 900; }
-        .date-text { font-size: clamp(14px, 2vh, 20px); font-weight: 700; }
+        /* Fontes iguais ao velocímetro */
+        .time-text, .date-text { font-family: 'Arial', sans-serif; color: #ffffff; text-shadow: 0 0 10px var(--neon-red), 0 0 25px var(--neon-red); line-height: 1; transition: all 0.5s ease; }
+        .time-text { font-size: clamp(24px, 4.5vh, 45px); font-weight: 900; }
+        .date-text { font-size: clamp(14px, 2.5vh, 22px); font-weight: 700; }
 
-        /* BOTÃO TELA CHEIA */
         .fullscreen-btn { background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5); width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2); padding: 0; outline: none; }
         .fullscreen-btn:hover { background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow); }
         .fullscreen-btn svg { width: 22px; height: 22px; stroke: #fff; transition: stroke 0.3s ease; }
         .fullscreen-btn:hover svg { stroke: var(--neon-red); }
 
-        /* VELOCÍMETRO */
-        .speed-container-new { display: flex; flex-direction: column; align-items: center; }
+        /* 2. VELOCÍMETRO (MEIO ESQUERDA) */
+        .speed-container-new { 
+            position: absolute; left: 8vw; top: 50%; transform: translateY(-50%); 
+            display: flex; flex-direction: column; align-items: center; z-index: 10;
+        }
         .speed-value-new { font-family: 'Arial', sans-serif; font-size: clamp(100px, 25vh, 250px); font-weight: bold; color: #fff; text-shadow: 0 0 20px var(--neon-red), 0 0 50px var(--neon-red); line-height: 0.9; transition: all 0.5s ease; }
         .speed-unit-new { font-family: var(--font-accent); font-size: clamp(20px, 4vh, 40px); color: var(--neon-red); letter-spacing: 10px; text-shadow: 0 0 10px var(--neon-red); margin-top: 15px; transition: all 0.5s ease; }
 
-        /* =========================================
-           PISTA (VAI ATÉ O TOPO EXATAMENTE)
-           ========================================= */
+        /* 3. PISTA (VAI ATÉ O TOPO E NÃO SAI DO LUGAR) */
         .track-container {
             position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-            perspective: 20vh; /* Força o ponto de fuga ir para cima */
-            perspective-origin: 50% 0%; /* O fim da pista morre no topo central da tela */
-            display: flex; justify-content: center; z-index: 0; overflow: hidden;
+            perspective: 35vh; /* Ângulo que leva a pista pro topo */
+            perspective-origin: 50% 10%; /* Morre no centro do teto */
+            display: flex; justify-content: center; z-index: 1; overflow: hidden;
         }
         
         .track {
-            position: absolute; bottom: 0; width: 40vw; height: 250vh;
-            background: transparent;
-            transform-origin: 50% 100%;
-            transform: rotateX(85deg); /* Deita a pista e manda pro horizonte */
-            border-left: 6px solid #fff;
-            border-right: 6px solid #fff;
+            position: absolute; bottom: -20vh; width: 80vw; height: 200vh;
+            background: #000;
+            transform-origin: bottom center;
+            transform: rotateX(80deg);
+            border-left: 8px solid #fff;
+            border-right: 8px solid #fff;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1) inset;
         }
 
         .track-lines {
             position: absolute; left: 50%; transform: translateX(-50%);
-            width: 8px; height: 100%;
+            width: 12px; height: 100%;
             background-image: linear-gradient(to bottom, #fff 50%, transparent 50%);
-            background-size: 100% 25vh; /* Tamanho do tracejado */
+            background-size: 100% 30vh;
         }
 
-        /* =========================================
-           CARRO, FAROL REAL E LANTERNAS
-           ========================================= */
+        /* 4. FAROL DIANTEIRO (PROJETADO NO CHÃO DA PISTA) */
+        .headlight-beam {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 150vw; height: 100%;
+            /* Foco de luz fortíssimo que vai sumindo no horizonte */
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(200, 240, 255, 0.3) 30%, transparent 100%);
+            clip-path: polygon(30% 100%, 70% 100%, 100% 0%, 0% 0%);
+            z-index: 2; opacity: 1; transition: opacity 0.5s ease;
+        }
+
+        /* 5. CARRO E LANTERNAS (MAIOR E CENTRALIZADO) */
         .car-wrapper {
-            position: relative; z-index: 4; margin-bottom: 2vh;
-            width: clamp(250px, 40vh, 450px); 
-            display: flex; justify-content: center;
+            position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%);
+            width: 55vh; /* CARRO GIGANTE */
+            display: block; z-index: 10;
         }
 
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
-            mix-blend-mode: screen; /* FUNDE O CARRO E ESCONDE O FUNDO PRETO */
+            mix-blend-mode: screen; /* FUNDE O CARRO E APAGA O FUNDO PRETO */
         }
 
-        /* FAROL DIANTEIRO (FEIXE RADIAL REALISTA, SEM BUGS) */
-        .headlight-beam {
-            position: absolute; 
-            bottom: 45%; left: 50%; transform: translateX(-50%);
-            width: 180vw; height: 120vh; /* Muito amplo */
-            /* Gera um clarão no chão que vai perdendo força longe */
-            background: radial-gradient(ellipse at bottom center, rgba(255, 255, 255, 0.85) 0%, rgba(200, 240, 255, 0.2) 40%, transparent 70%);
-            z-index: 1; opacity: 1; transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-
-        /* LANTERNAS TRASEIRAS MILIMÉTRICAS NA LENTE */
+        /* LANTERNAS TRASEIRAS CRAVADAS (Proporção Exata da Lente) */
         .taillight {
             position: absolute; 
-            bottom: 40%; /* Subido na lente */
-            width: 5%; height: 6%; 
+            bottom: 30%; /* Altura exata da lanterna no Agile */
+            width: 14%; height: 9%; 
             background: #fff; /* Núcleo Branco de LED */
             border-radius: 50%;
-            box-shadow: 0 0 5px #fff, 0 0 15px 8px #ff0000, 0 0 40px 20px #ff0000;
-            z-index: 10; opacity: 1; transition: opacity 0.5s ease;
+            /* Halo Vermelho muito intenso e amplo */
+            box-shadow: 0 0 8px #fff, 0 0 20px 10px #ff0000, 0 0 60px 25px #ff0033;
+            z-index: 5; opacity: 1; transition: opacity 0.5s ease;
         }
-        .taillight.left { left: 24%; } /* Puxado para o centro da lente */
-        .taillight.right { right: 24%; } /* Puxado para o centro da lente */
+        .taillight.left { left: 16%; }
+        .taillight.right { right: 16%; }
 
         /* =========================================
            TEMA CLARO (MUDANÇA AUTOMÁTICA DE DIA)
@@ -155,56 +147,51 @@
         #view-panel.light-mode .fullscreen-btn svg { stroke: #0f172a; }
 
         /* Pista Clara de Dia */
-        #view-panel.light-mode .track { border-color: #475569; }
+        #view-panel.light-mode .track { background: #94a3b8; border-color: #475569; }
         #view-panel.light-mode .track-lines { background-image: linear-gradient(to bottom, #475569 50%, transparent 50%); }
 
-        /* O carro perde a mesclagem de tela de dia para não sumir no fundo branco */
         #view-panel.light-mode #carroImg { mix-blend-mode: normal; mask-image: radial-gradient(circle at 50% 50%, black 50%, transparent 70%); -webkit-mask-image: radial-gradient(circle at 50% 50%, black 50%, transparent 70%); }
-
-        /* Apaga as Luzes de Dia */
         #view-panel.light-mode .headlight-beam,
         #view-panel.light-mode .taillight { opacity: 0; }
 
         /* ANIMAÇÕES */
-        @keyframes scrollRoad { from { background-position: center 0; } to { background-position: center 25vh; } }
-        @keyframes idleVibration { 0% { transform: translateY(0px); } 50% { transform: translateY(1px); } 100% { transform: translateY(0px); } }
-        @keyframes drivingVibration { 0% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-3px) rotate(-0.5deg); } 50% { transform: translateY(1px) rotate(0deg); } 75% { transform: translateY(-2px) rotate(0.5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+        @keyframes scrollRoad { from { background-position: center 0; } to { background-position: center 30vh; } }
+        @keyframes drivingVibration { 0% { transform: translateX(-50%) translateY(0px) rotate(0deg); } 25% { transform: translateX(-50%) translateY(-3px) rotate(-0.5deg); } 50% { transform: translateX(-50%) translateY(1px) rotate(0deg); } 75% { transform: translateX(-50%) translateY(-2px) rotate(0.5deg); } 100% { transform: translateX(-50%) translateY(0px) rotate(0deg); } }
 
-        .carro-parado { animation: idleVibration 0.1s infinite; }
+        /* Agora o wrapper inteiro vibra, as luzes tremem junto com o carro! */
         .carro-andando { animation: drivingVibration 0.3s infinite; }
+        .carro-parado { transform: translateX(-50%); } /* Reseta posição */
         .pista-movimento { animation: scrollRoad 0.3s linear infinite; }
 
         /* =========================================
-           ESTILOS DAS OUTRAS ABAS (Mantidos)
+           OUTRAS ABAS E MENUS (Ocultos no design direto)
            ========================================= */
-        #view-logo { justify-content: center; padding: 0; background: radial-gradient(circle at center, rgba(255,0,51,0.2) 0%, #000 70%); }
-        .logo-img-large { width: 100vw; height: 100vh; object-fit: cover; object-position: center; mix-blend-mode: screen; }
-        #view-car { justify-content: center; align-items: center; padding: 0; }
-        .full-screen-display { display: flex; width: 100vw; height: 100vh; background: var(--bg-dark); z-index: 5; }
-        .side-menu { width: 25vw; min-width: clamp(180px, 25vw, 250px); background: rgba(5,5,5,0.9); border-right: 1px solid rgba(255, 0, 51, 0.3); display: flex; flex-direction: column; padding: clamp(50px, 10vh, 80px) 0 20px 0; box-shadow: 5px 0 20px rgba(0,0,0,0.8); z-index: 10; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
-        .side-menu::-webkit-scrollbar { display: none; }
-        .side-menu-btn { background: none; border: none; color: var(--text-dim); text-align: left; padding: clamp(12px, 3vh, 20px) clamp(15px, 2vw, 25px); cursor: pointer; font-family: var(--font-main); font-size: clamp(12px, 1.8vh, 16px); font-weight: 400; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; position: relative; border-left: 4px solid transparent; line-height: 1.2; }
+        #view-logo { display: none; }
+        #view-car { display: none; }
+        #view-logo.active { display: flex; justify-content: center; background: radial-gradient(circle at center, rgba(255,0,51,0.2) 0%, #000 70%); }
+        #view-logo .logo-img-large { width: 100vw; height: 100vh; object-fit: cover; object-position: center; mix-blend-mode: screen; }
+        
+        #view-car.active { display: flex; background: var(--bg-dark); }
+        .full-screen-display { display: flex; width: 100vw; height: 100vh; }
+        .side-menu { width: 25vw; min-width: 250px; background: rgba(5,5,5,0.9); border-right: 1px solid rgba(255, 0, 51, 0.3); display: flex; flex-direction: column; padding: 80px 0 20px 0; z-index: 10; overflow-y: auto; }
+        .side-menu-btn { background: none; border: none; color: var(--text-dim); text-align: left; padding: 20px 25px; cursor: pointer; font-family: var(--font-main); font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; border-left: 4px solid transparent; }
         .side-menu-btn:hover { background: rgba(255, 0, 51, 0.05); color: #fff; }
-        .side-menu-btn.active { background: rgba(255, 0, 51, 0.1); color: var(--neon-red); font-weight: 700; border-left: 4px solid var(--neon-red); box-shadow: inset 20px 0 20px -20px var(--neon-red-glow); }
-        .content-area { flex-grow: 1; padding: 4% 5%; display: flex; flex-direction: column; background: radial-gradient(circle at right, rgba(255,0,51,0.05) 0%, transparent 60%); position: relative; overflow: hidden; }
-        .car-images-container { position: absolute; right: 2%; top: 5%; bottom: 5%; width: 33%; display: flex; flex-direction: column; justify-content: space-between; gap: clamp(10px, 2vh, 20px); z-index: 0; opacity: 0.7; pointer-events: none; }
-        .car-image-box { flex: 1; border-radius: 15px; border: 1px solid rgba(255,0,51,0.1); background: rgba(10,10,10,0.5); overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; }
+        .side-menu-btn.active { background: rgba(255, 0, 51, 0.1); color: var(--neon-red); font-weight: 700; border-left: 4px solid var(--neon-red); }
+        .content-area { flex-grow: 1; padding: 4% 5%; display: flex; flex-direction: column; background: radial-gradient(circle at right, rgba(255,0,51,0.05) 0%, transparent 60%); position: relative; }
+        .car-images-container { position: absolute; right: 2%; top: 5%; bottom: 5%; width: 33%; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; opacity: 0.7; pointer-events: none; }
+        .car-image-box { flex: 1; border-radius: 15px; border: 1px solid rgba(255,0,51,0.1); background: rgba(10,10,10,0.5); overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .car-image-box img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; }
-        .info-section { display: none; flex-direction: column; height: 100%; z-index: 1; width: 62%; justify-content: flex-start; padding: 1% 0; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
-        .info-section::-webkit-scrollbar { display: none; }
-        .info-section.active { display: flex; animation: fadeInRight 0.5s ease; }
-        .info-title { font-family: var(--font-accent); font-size: clamp(18px, 3.5vh, 40px); color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red-glow); margin-bottom: clamp(10px, 2vh, 25px); font-weight: 700; border-bottom: 1px solid rgba(255,0,51,0.3); padding-bottom: clamp(5px, 1vh, 10px); display: inline-block; flex-shrink: 0; }
-        .info-box-container { display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 12px); justify-content: flex-start; padding-bottom: 20px; }
-        .info-box { background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2); border-radius: 12px; padding: clamp(8px, 1.5vh, 15px) clamp(10px, 2vw, 20px); box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; transition: transform 0.2s, border-color 0.2s; flex-shrink: 0; }
-        .info-box:hover { border-color: rgba(255, 0, 51, 0.5); transform: translateX(5px); }
-        .info-box-content { font-size: clamp(11px, 2.2vh, 18px); color: #ccc; line-height: 1.3; }
-        .info-box-content strong { color: #fff; font-family: var(--font-main); font-weight: 700; margin-right: 8px; }
-        @keyframes fadeInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        .info-section { display: none; flex-direction: column; height: 100%; width: 62%; justify-content: flex-start; padding: 1% 0; overflow-y: auto; }
+        .info-section.active { display: flex; }
+        .info-title { font-family: var(--font-accent); font-size: 40px; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red-glow); margin-bottom: 25px; font-weight: 700; border-bottom: 1px solid rgba(255,0,51,0.3); padding-bottom: 10px; }
+        .info-box-container { display: flex; flex-direction: column; gap: 12px; }
+        .info-box { background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2); border-radius: 12px; padding: 15px 20px; }
+        .info-box-content { font-size: 18px; color: #ccc; }
+        .info-box-content strong { color: #fff; font-family: var(--font-main); margin-right: 8px; }
     </style>
 </head>
 <body>
 <div class="multimedia-screen">
-    <div class="bg-grid"></div>
 
     <div class="menu-container">
         <button class="menu-toggle" onclick="toggleMenu()" id="menu-btn">
@@ -219,10 +206,10 @@
         </div>
     </div>
 
-    <!-- ABA 1: PAINEL 3D CORRIGIDO -->
+    <!-- ABA 1: PAINEL 3D BLINDADO -->
     <div id="view-panel" class="view-section active">
         
-        <!-- DATA E HORA -->
+        <!-- DATA, HORA (Vermelho Neon) E TELA CHEIA -->
         <div class="top-right-container">
             <div class="datetime-block">
                 <div id="time-display" class="time-text">--:--:--</div>
@@ -237,39 +224,29 @@
         </div>
 
         <!-- VELOCÍMETRO -->
-        <div class="col-left">
-            <div class="speed-container-new">
-                <div class="speed-value-new" id="velocidadeTxt">0</div>
-                <div class="speed-unit-new">KM/H</div>
-            </div>
+        <div class="speed-container-new">
+            <div class="speed-value-new" id="velocidadeTxt">0</div>
+            <div class="speed-unit-new">KM/H</div>
         </div>
 
-        <!-- PISTA E CARRO -->
-        <div class="col-center">
-            
-            <!-- Pista que vai exatamente até o topo da tela -->
-            <div class="track-container">
-                <div class="track">
-                    <div id="trackLines" class="track-lines"></div>
-                </div>
-            </div>
-            
-            <!-- Carro e Luzes -->
-            <div class="car-wrapper">
-                
-                <!-- Farol Dianteiro (Radial Forte e Sem Cortes Feios) -->
+        <!-- PISTA (Sólida, até o teto) -->
+        <div class="track-container">
+            <div class="track">
+                <!-- Farol Dianteiro projetado no asfalto -->
                 <div class="headlight-beam"></div>
-                
-                <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
-                
-                <!-- Lanternas Traseiras (Na Lente) -->
-                <div class="taillight left"></div>
-                <div class="taillight right"></div>
+                <!-- Faixas da pista -->
+                <div id="trackLines" class="track-lines"></div>
             </div>
-
+        </div>
+        
+        <!-- CARRO GIGANTE COM LUZES -->
+        <div class="car-wrapper carro-parado" id="carWrapper">
+            <img id="carroImg" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
+            <!-- Lanternas Traseiras (Vão tremer junto com o carro!) -->
+            <div class="taillight left"></div>
+            <div class="taillight right"></div>
         </div>
 
-        <div class="col-right"></div>
     </div>
 
     <!-- ABA 2: LOGO / MÍDIA -->
@@ -284,7 +261,7 @@
                 <button class="side-menu-btn active" onclick="switchInfoView('info-motor', this)">Motor e Desempenho</button>
                 <button class="side-menu-btn" onclick="switchInfoView('info-consumo', this)">Consumo e Autonomia</button>
                 <button class="side-menu-btn" onclick="switchInfoView('info-dimensoes', this)">Dimensões e Capacidades</button>
-                <button class="side-menu-btn" onclick="switchInfoView('info-itens', this)">Principais Itens de Série e Opcionais (Versão LTZ)</button>
+                <button class="side-menu-btn" onclick="switchInfoView('info-itens', this)">Principais Itens de Série</button>
             </div>
 
             <div class="content-area">
@@ -294,9 +271,6 @@
                         <div class="info-box"><div class="info-box-content"><strong>Motorização:</strong> 1.4 8V Econoflex (flex)</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Potência:</strong> 102 cv (Etanol) / 97 cv (Gasolina) a 6.000 rpm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Torque:</strong> 13,5 kgf.m (Etanol) / 13,2 kgf.m (Gasolina) a 3.200 rpm</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Velocidade Máxima:</strong> 166 km/h</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Aceleração (0 a 100 km/h):</strong> 12,5 segundos</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Câmbio:</strong> Manual de 5 velocidades</div></div>
                     </div>
                 </div>
 
@@ -305,7 +279,6 @@
                     <div class="info-box-container">
                         <div class="info-box"><div class="info-box-content"><strong>Consumo Urbano:</strong> 6,6 km/l (Etanol) / 9 km/l (Gasolina)</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Consumo Rodoviário:</strong> 8,2 km/l (Etanol) / 11,7 km/l (Gasolina)</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Tanque de Combustível:</strong> 54 litros</div></div>
                     </div>
                 </div>
 
@@ -313,18 +286,15 @@
                     <div class="info-title">Dimensões e Capacidades</div>
                     <div class="info-box-container">
                         <div class="info-box"><div class="info-box-content"><strong>Comprimento:</strong> 3.996 mm</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Largura:</strong> 1.683 mm</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Altura:</strong> 1.474 mm</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Porta-malas:</strong> 327 litros</div></div>
                     </div>
                 </div>
 
                 <div id="info-itens" class="info-section">
-                    <div class="info-title">Principais Itens de Série e Opcionais (Versão LTZ)</div>
+                    <div class="info-title">Principais Itens de Série</div>
                     <div class="info-box-container">
-                        <div class="info-box"><div class="info-box-content"><strong>Direção:</strong> Hidráulica com regulagem de altura</div></div>
                         <div class="info-box"><div class="info-box-content"><strong>Ar-condicionado:</strong> Digital</div></div>
-                        <div class="info-box"><div class="info-box-content"><strong>Segurança:</strong> Freios ABS com EBD e airbag duplo</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Piloto Automático:</strong> Cruise Control</div></div>
                     </div>
                 </div>
 
@@ -341,7 +311,7 @@
     function toggleFullScreen() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Erro ao tentar modo tela cheia: ${err.message}`);
+                console.log(`Erro tela cheia: ${err.message}`);
             });
         } else {
             if (document.exitFullscreen) { document.exitFullscreen(); }
@@ -378,7 +348,6 @@
             painel.classList.remove('light-mode');
         }
     }
-    
     atualizarModoDiaNoite();
     setInterval(atualizarModoDiaNoite, 60000);
 
@@ -403,7 +372,7 @@
     setInterval(atualizarRelogio, 1000);
 
     const velDisplay = document.getElementById('velocidadeTxt'); 
-    const carroImg = document.getElementById('carroImg');
+    const carWrapper = document.getElementById('carWrapper');
     const trackLines = document.getElementById('trackLines');
 
     function iniciarGPS() {
@@ -418,11 +387,11 @@
                     if(velDisplay) velDisplay.innerText = velKmH;
 
                     if (velKmH > 0) {
-                        if(carroImg) carroImg.className = 'carro-andando';
-                        if(trackLines) trackLines.className = 'track-lines pista-movimento';
+                        if(carWrapper) { carWrapper.classList.add('carro-andando'); carWrapper.classList.remove('carro-parado'); }
+                        if(trackLines) trackLines.classList.add('pista-movimento');
                     } else {
-                        if(carroImg) carroImg.className = 'carro-parado';
-                        if(trackLines) trackLines.className = 'track-lines'; 
+                        if(carWrapper) { carWrapper.classList.add('carro-parado'); carWrapper.classList.remove('carro-andando'); }
+                        if(trackLines) trackLines.classList.remove('pista-movimento');
                     }
                 },
                 function(error) { console.error("Erro GPS...", error); },
