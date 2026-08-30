@@ -2,208 +2,521 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Agile Minimalista 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chevrolet Agile LTZ - Dashboard</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @import url('https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;700;900&family=Oxanium:wght@300;400;700&display=swap');
+
+        :root {
+            --neon-red: #ff0033;
+            --neon-red-glow: rgba(255, 0, 51, 0.6);
+            --bg-dark: #000;
+            --bg-panel: rgba(10, 0, 0, 0.85);
+            --text-light: #fff;
+            --text-dim: #aaa;
+            --font-main: 'Oxanium', sans-serif;
+            --font-display: 'Orbitron', sans-serif;
+            --font-accent: 'Michroma', sans-serif;
         }
 
-        body {
-            background-color: #050505;
+        body, html {
+            margin: 0; padding: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-dark); color: var(--text-light);
+            font-family: var(--font-main);
+            overflow: hidden; user-select: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .multimedia-screen {
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at center, #1a0005 0%, #020000 100%);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 2% 4%; box-sizing: border-box; position: relative;
+        }
+
+        .bg-grid {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255, 0, 51, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 51, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: 0; opacity: 0.5;
+            perspective: 1000px; transform: rotateX(60deg) translateY(-50px) translateZ(-200px);
+        }
+
+        .menu-container {
+            position: absolute; top: 4%; left: 4%; z-index: 100;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .menu-toggle {
+            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.5);
+            color: #fff; width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            gap: 5px; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
+        }
+
+        .menu-toggle:hover, .menu-toggle.active {
+            background: rgba(255, 0, 51, 0.2); box-shadow: 0 0 15px var(--neon-red-glow);
+        }
+
+        .menu-line { width: 20px; height: 2px; background-color: #fff; transition: all 0.3s ease; }
+        .menu-toggle.active .line1 { transform: translateY(7px) rotate(45deg); background-color: var(--neon-red); }
+        .menu-toggle.active .line2 { opacity: 0; }
+        .menu-toggle.active .line3 { transform: translateY(-7px) rotate(-45deg); background-color: var(--neon-red); }
+
+        .top-nav {
+            display: flex; flex-direction: column; gap: 10px;
+            opacity: 0; pointer-events: none; transform: translateX(-20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .top-nav.open { opacity: 1; pointer-events: auto; transform: translateX(0); }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 0, 51, 0.3);
+            color: #fff; font-family: var(--font-accent);
+            font-size: clamp(9px, 1.2vh, 12px);
+            padding: 10px 20px; text-align: left;
+            border-radius: 12px; cursor: pointer; letter-spacing: 1px;
+            backdrop-filter: blur(10px); transition: all 0.3s ease;
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 0, 51, 0.15); border-color: var(--neon-red);
+            box-shadow: 0 0 20px var(--neon-red-glow); color: var(--neon-red); font-weight: 700;
+        }
+
+        .view-section {
+            display: none; width: 100%; height: 100%;
+            justify-content: space-between; align-items: center; position: absolute;
+            top: 0; left: 0; padding: 2% 4%; box-sizing: border-box;
+        }
+        .view-section.active { display: flex; }
+
+        /* =========================================
+           NOVOS ESTILOS DA ABA: PAINEL 3D (Substituídos)
+           ========================================= */
+        .col-left { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
+        .col-center { width: 40%; height: 100%; display: flex; justify-content: center; align-items: flex-end; position: relative; perspective: 600px; z-index: 1;}
+        .col-right { width: 30%; display: flex; justify-content: center; align-items: center; z-index: 5; }
+
+        .speed-container-new { display: flex; flex-direction: column; align-items: center; }
+        
+        .speed-value-new {
+            font-family: 'Arial', 'Helvetica', sans-serif; /* Evita erro do zero */
+            font-size: clamp(100px, 25vh, 250px); /* Tamanho Gigante responsivo */
+            font-weight: bold;
             color: #fff;
-            font-family: 'Orbitron', sans-serif;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* --- VELOCÍMETRO GIGANTE (ESQUERDA) --- */
-        .speed-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 40%;
-            margin-left: 5%;
-        }
-
-        .speed-value {
-            font-size: 16rem; /* Tamanho Gigante */
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 0 20px #ff003c, 0 0 50px #ff003c;
+            text-shadow: 0 0 20px var(--neon-red), 0 0 40px var(--neon-red);
             line-height: 0.9;
         }
 
-        .speed-unit {
-            font-size: 3rem;
-            color: #ff003c;
+        .speed-unit-new {
+            font-family: var(--font-accent);
+            font-size: clamp(20px, 4vh, 40px);
+            color: var(--neon-red);
             letter-spacing: 10px;
-            text-shadow: 0 0 10px #ff003c;
-            margin-top: 10px;
+            text-shadow: 0 0 10px var(--neon-red);
+            margin-top: 15px;
         }
 
-        /* --- CARRO E PISTA 3D (DIREITA) --- */
-        .car-track-container {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            position: relative;
-            perspective: 600px; /* Cria a ilusão de profundidade 3D */
-        }
-
-        /* O Chão/Pista */
         .track {
-            position: absolute;
-            bottom: -50px;
-            width: 100%;
-            height: 80%;
-            /* Fundo escuro esfumaçado simulando asfalto à noite */
-            background: linear-gradient(to bottom, transparent 0%, #0a0a0a 40%, #151515 100%);
-            transform: rotateX(60deg); /* Deita a pista para trás */
-            transform-origin: bottom center;
-            border-left: 2px solid rgba(255, 0, 60, 0.2);
-            border-right: 2px solid rgba(255, 0, 60, 0.2);
-            z-index: 0;
-            overflow: hidden;
+            position: absolute; bottom: -50px; width: 120%; height: 80%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(10,10,10,0.8) 40%, rgba(18,18,18,0.9) 100%);
+            transform: rotateX(60deg); transform-origin: bottom center;
+            border-left: 2px solid rgba(255, 0, 51, 0.3); border-right: 2px solid rgba(255, 0, 51, 0.3);
+            z-index: 0; overflow: hidden;
         }
 
-        /* As faixas da pista */
         .track-lines {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: repeating-linear-gradient(
-                to bottom,
-                transparent 0,
-                transparent 50px,
-                rgba(255, 255, 255, 0.7) 50px,
-                rgba(255, 255, 255, 0.7) 120px
-            );
-            background-size: 16px 100%; /* Largura da faixa branca */
-            background-position: center 0;
-            background-repeat: no-repeat;
+            position: absolute; width: 100%; height: 100%;
+            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 50px, rgba(255, 255, 255, 0.7) 50px, rgba(255, 255, 255, 0.7) 120px);
+            background-size: 16px 100%; background-position: center 0; background-repeat: no-repeat;
         }
 
-        /* A imagem do Agile */
         #carroImg {
-            width: 320px; /* Um pouco maior para dar mais destaque */
-            z-index: 2;
-            margin-bottom: 50px;
-            /* Máscara para tirar a borda preta quadrada da IA e misturar com a pista */
+            width: clamp(200px, 35vh, 320px); z-index: 2; margin-bottom: 50px;
             mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
             -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 80%);
         }
 
-        /* --- ANIMAÇÕES --- */
-        
-        /* Faixa da pista rolando em loop */
-        @keyframes scrollRoad {
-            from { background-position: center 0px; }
-            to { background-position: center 120px; }
+        .glass-panel {
+            background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2);
+            border-radius: 20px; padding: 40px 30px; width: 100%;
+            box-shadow: inset 0 0 20px rgba(255, 0, 51, 0.05), 0 10px 30px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; gap: 50px; backdrop-filter: blur(10px);
         }
 
-        /* Vibração do motor ligado (parado) */
-        @keyframes idleVibration {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(1px); }
-            100% { transform: translateY(0px); }
+        .widget { display: flex; flex-direction: column; gap: 10px; }
+        .widget .title { font-family: var(--font-accent); font-size: clamp(10px, 1.8vh, 14px); color: #888; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;}
+        .widget .value { font-family: var(--font-display); font-size: clamp(30px, 5vh, 45px); font-weight: 700; text-shadow: 0 0 10px currentColor; }
+
+        .bar-container { width: 100%; height: 8px; background: rgba(34, 34, 34, 0.6); border-radius: 5px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .bar-fill { height: 100%; border-radius: 5px; }
+        .c-fuel .value { color: #ffb700; }
+        .c-fuel .bar-fill { background: linear-gradient(90deg, var(--neon-red), #ffb700); width: 45%; box-shadow: 0 0 10px #ffb700; }
+        .c-bat .value { color: #00ffaa; }
+        .c-bat .bar-fill { background: linear-gradient(90deg, var(--neon-red), #00ffaa); width: 85%; box-shadow: 0 0 10px #00ffaa; }
+
+        @keyframes scrollRoad { from { background-position: center 0px; } to { background-position: center 120px; } }
+        @keyframes idleVibration { 0% { transform: translateY(0px); } 50% { transform: translateY(1px); } 100% { transform: translateY(0px); } }
+        @keyframes drivingVibration { 0% { transform: translateY(0px) rotate(0deg); } 25% { transform: translateY(-3px) rotate(-0.5deg); } 50% { transform: translateY(1px) rotate(0deg); } 75% { transform: translateY(-2px) rotate(0.5deg); } 100% { transform: translateY(0px) rotate(0deg); } }
+
+        .carro-parado { animation: idleVibration 0.1s infinite; }
+        .carro-andando { animation: drivingVibration 0.3s infinite; }
+        .pista-movimento { animation: scrollRoad 0.3s linear infinite; }
+
+        /* =========================================
+           ESTILOS DAS OUTRAS ABAS (Mantidos Intactos)
+           ========================================= */
+        #view-logo { justify-content: center; padding: 0; background: radial-gradient(circle at center, rgba(255,0,51,0.2) 0%, #000 70%); }
+        .logo-img-large { width: 100vw; height: 100vh; object-fit: cover; object-position: center; mix-blend-mode: screen; animation: pulse-logo 4s infinite alternate ease-in-out; }
+
+        .media-controls-container {
+            position: absolute; top: 4%; right: 4%; display: flex; gap: 15px; align-items: center;
+            background: transparent; border: none; padding: 0; box-shadow: none; z-index: 10;
         }
 
-        /* Tremida forte da suspensão (andando) */
-        @keyframes drivingVibration {
-            0% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-4px) rotate(-1deg); }
-            50% { transform: translateY(2px) rotate(0deg); }
-            75% { transform: translateY(-3px) rotate(1deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        .media-btn {
+            background: rgba(10, 0, 0, 0.85); border: none; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 51, 0.2);
         }
 
-        /* Classes ativadas pelo Javascript */
-        .carro-parado { 
-            animation: idleVibration 0.1s infinite; 
+        .media-btn:hover, .media-btn:active { transform: scale(1.1); background: rgba(20, 0, 0, 0.95); box-shadow: 0 0 20px var(--neon-red-glow); }
+        .media-btn svg { width: 22px; height: 22px; fill: var(--neon-red); filter: drop-shadow(0 0 3px var(--neon-red)); transition: all 0.3s; }
+        .media-btn:hover svg { fill: #ff6680; filter: drop-shadow(0 0 8px #ff6680); }
+
+        .now-playing-container {
+            position: absolute; top: 12%; right: 4%; display: flex; flex-direction: column; align-items: flex-end;
+            text-align: right; max-width: 280px; z-index: 10; background: rgba(10, 0, 0, 0.7); padding: 8px 15px; border-radius: 12px;
+            border: 1px solid rgba(255, 0, 51, 0.2); backdrop-filter: blur(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            opacity: 0; transition: opacity 0.5s ease;
         }
-        
-        .carro-andando { 
-            animation: drivingVibration 0.3s infinite; 
+
+        .song-title { font-family: var(--font-main); font-weight: 700; color: #fff; font-size: clamp(12px, 2.2vh, 16px); text-shadow: 0 0 10px rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .song-artist { font-family: var(--font-accent); font-size: clamp(9px, 1.5vh, 11px); color: var(--neon-red); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-top: 4px; opacity: 0.9; }
+
+        #view-car { justify-content: center; align-items: center; padding: 0; }
+
+        .full-screen-display { display: flex; width: 100vw; height: 100vh; background: var(--bg-dark); z-index: 5; }
+        .side-menu {
+            width: 25vw; min-width: clamp(180px, 25vw, 250px); background: rgba(5,5,5,0.9); border-right: 1px solid rgba(255, 0, 51, 0.3);
+            display: flex; flex-direction: column; padding: clamp(50px, 10vh, 80px) 0 20px 0;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.8); z-index: 10; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
         }
-        
-        .pista-movimento {
-            animation: scrollRoad 0.3s linear infinite;
+        .side-menu::-webkit-scrollbar { display: none; }
+        .side-menu-btn {
+            background: none; border: none; color: var(--text-dim); text-align: left;
+            padding: clamp(12px, 3vh, 20px) clamp(15px, 2vw, 25px); cursor: pointer; font-family: var(--font-main);
+            font-size: clamp(12px, 1.8vh, 16px); font-weight: 400; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease; position: relative; border-left: 4px solid transparent; line-height: 1.2;
         }
+        .side-menu-btn:hover { background: rgba(255, 0, 51, 0.05); color: #fff; }
+        .side-menu-btn.active { background: rgba(255, 0, 51, 0.1); color: var(--neon-red); font-weight: 700; border-left: 4px solid var(--neon-red); box-shadow: inset 20px 0 20px -20px var(--neon-red-glow); }
+
+        .content-area {
+            flex-grow: 1; padding: 4% 5%; display: flex; flex-direction: column;
+            background: radial-gradient(circle at right, rgba(255,0,51,0.05) 0%, transparent 60%);
+            position: relative; overflow: hidden;
+        }
+
+        .car-images-container {
+            position: absolute; right: 2%; top: 5%; bottom: 5%; width: 33%;
+            display: flex; flex-direction: column; justify-content: space-between; gap: clamp(10px, 2vh, 20px);
+            z-index: 0; opacity: 0.7; pointer-events: none;
+        }
+        .car-image-box { flex: 1; border-radius: 15px; border: 1px solid rgba(255,0,51,0.1); background: rgba(10,10,10,0.5); overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; }
+        .car-image-box img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: screen; }
+
+        .info-section { display: none; flex-direction: column; height: 100%; z-index: 1; width: 62%; justify-content: flex-start; padding: 1% 0; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+        .info-section::-webkit-scrollbar { display: none; }
+        .info-section.active { display: flex; animation: fadeInRight 0.5s ease; }
+
+        .info-title { font-family: var(--font-accent); font-size: clamp(18px, 3.5vh, 40px); color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red-glow); margin-bottom: clamp(10px, 2vh, 25px); font-weight: 700; border-bottom: 1px solid rgba(255,0,51,0.3); padding-bottom: clamp(5px, 1vh, 10px); display: inline-block; flex-shrink: 0; }
+        .info-box-container { display: flex; flex-direction: column; gap: clamp(6px, 1.2vh, 12px); justify-content: flex-start; padding-bottom: 20px; }
+        .info-box { background: rgba(15, 5, 5, 0.7); border: 1px solid rgba(255, 0, 51, 0.2); border-radius: 12px; padding: clamp(8px, 1.5vh, 15px) clamp(10px, 2vw, 20px); box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; transition: transform 0.2s, border-color 0.2s; flex-shrink: 0; }
+        .info-box:hover { border-color: rgba(255, 0, 51, 0.5); transform: translateX(5px); }
+        .info-box-content { font-size: clamp(11px, 2.2vh, 18px); color: #ccc; line-height: 1.3; }
+        .info-box-content strong { color: #fff; font-family: var(--font-main); font-weight: 700; margin-right: 8px; }
+        .info-box-content em { color: #888; font-style: italic; font-size: 0.9em; }
+
+        #info-itens .info-box-container { gap: clamp(4px, 1vh, 8px); }
+        #info-itens .info-box { padding: clamp(6px, 1.2vh, 12px) clamp(10px, 2vw, 15px); }
+        #info-itens .info-box-content { font-size: clamp(10px, 1.8vh, 16px); }
+
+        .permission-alert {
+            display: none; position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
+            background: rgba(200, 0, 30, 0.9); border: 2px solid #fff; color: #fff; padding: 15px 30px; border-radius: 12px;
+            font-family: var(--font-main); font-weight: 700; font-size: clamp(14px, 2.5vh, 20px); cursor: pointer; z-index: 1000; box-shadow: 0 0 30px rgba(255, 0, 51, 0.8);
+            animation: pulse-alert 1s infinite alternate; text-align: center;
+        }
+        .permission-alert span { display: block; font-size: 0.8em; font-weight: normal; margin-top: 5px; opacity: 0.9; }
+
+        @keyframes pulse-alert { from { transform: translateX(-50%) scale(1); box-shadow: 0 0 15px #ff0033; } to { transform: translateX(-50%) scale(1.05); box-shadow: 0 0 40px #ff0033; } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse-logo { 0% { filter: drop-shadow(0 0 20px rgba(255, 0, 51, 0.2)); } 100% { filter: drop-shadow(0 0 50px rgba(255, 0, 51, 0.6)); } }
     </style>
 </head>
 <body>
+<div class="multimedia-screen">
+    <div class="bg-grid"></div>
 
-    <!-- VELOCÍMETRO GIGANTE -->
-    <div class="speed-container">
-        <div class="speed-value" id="velocidadeTxt">0</div>
-        <div class="speed-unit">KM/H</div>
-    </div>
-
-    <!-- PISTA E CARRO -->
-    <div class="car-track-container">
-        <div class="track">
-            <!-- A linha do meio que vai se mover -->
-            <div id="trackLines" class="track-lines"></div>
+    <div class="menu-container">
+        <button class="menu-toggle" onclick="toggleMenu()" id="menu-btn">
+            <div class="menu-line line1"></div>
+            <div class="menu-line line2"></div>
+            <div class="menu-line line3"></div>
+        </button>
+        <div class="top-nav" id="main-nav">
+            <button class="nav-btn active" onclick="switchView('view-panel', this)">PAINEL</button>
+            <button class="nav-btn" onclick="switchView('view-logo', this)">LOGO / MÍDIA</button>
+            <button class="nav-btn" onclick="switchView('view-car', this)">MEU AGILE</button>
         </div>
-        
-        <!-- Sua imagem do Agile -->
-        <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
     </div>
 
-    <script>
-        const velDisplay = document.getElementById('velocidadeTxt'); 
-        const carroImg = document.getElementById('carroImg');
-        const trackLines = document.getElementById('trackLines');
+    <!-- ABA 1: PAINEL 3D NOVO -->
+    <div id="view-panel" class="view-section active">
+        <!-- ESQUERDA: Velocímetro Gigante -->
+        <div class="col-left">
+            <div class="speed-container-new">
+                <div class="speed-value-new" id="velocidadeTxt">0</div>
+                <div class="speed-unit-new">KM/H</div>
+            </div>
+        </div>
 
-        function iniciarGPS() {
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(
-                    function(position) {
-                        // Converte velocidade de m/s para Km/h
-                        let velMetrosPorSegundo = position.coords.speed;
-                        let velKmH = 0;
+        <!-- CENTRO: Pista e Carro -->
+        <div class="col-center">
+            <div class="track">
+                <div id="trackLines" class="track-lines"></div>
+            </div>
+            <img id="carroImg" class="carro-parado" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
+        </div>
 
-                        // Se a velocidade for maior que 1 km/h (corta ruídos do GPS)
-                        if (velMetrosPorSegundo !== null && velMetrosPorSegundo > 0.3) {
-                            velKmH = Math.round(velMetrosPorSegundo * 3.6); 
-                        }
+        <!-- DIREITA: Informações (Combustível e Bateria) -->
+        <div class="col-right">
+            <div class="glass-panel">
+                <div class="widget c-fuel">
+                    <div class="title">Combustível</div>
+                    <div class="value">45%</div>
+                    <div class="bar-container"><div class="bar-fill"></div></div>
+                </div>
+                <div class="widget c-bat">
+                    <div class="title">Bateria</div>
+                    <div class="value">13.8V</div>
+                    <div class="bar-container"><div class="bar-fill"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        // Atualiza o texto na tela
-                        velDisplay.innerText = velKmH;
+    <!-- ABA 2: LOGO / MÍDIA (Intacta) -->
+    <div id="view-logo" class="view-section">
+        <img src="https://i.postimg.cc/pT5SLRTR/Gemini-Generated-Image-3en1f93en1f93en1.jpg" class="logo-img-large" alt="Chevrolet Logo Wallpaper">
 
-                        // Lógica de Movimento da Pista e do Carro
-                        if (velKmH > 0) {
-                            carroImg.className = 'carro-andando';
-                            trackLines.className = 'track-lines pista-movimento';
-                        } else {
-                            carroImg.className = 'carro-parado';
-                            trackLines.className = 'track-lines'; // Para a pista
-                        }
-                    },
-                    function(error) {
-                        console.error("Aguardando sinal de GPS do celular...", error);
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        maximumAge: 0,
-                        timeout: 5000
+        <div id="permission-alert" class="permission-alert" onclick="requestAndroidPermission()">
+            ⚠️ PERMISSÃO DE ÁUDIO NECESSÁRIA ⚠️
+            <span>Toque aqui para autorizar o app ler as notificações e controlar a música</span>
+        </div>
+
+        <div class="media-controls-container">
+            <button class="media-btn" id="btn-prev" onclick="controlMedia('previoustrack')">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </button>
+            <button class="media-btn" id="btn-playpause" onclick="controlMedia('playpause')">
+                <svg viewBox="0 0 24 24"><path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/></svg>
+            </button>
+            <button class="media-btn" id="btn-next" onclick="controlMedia('nexttrack')">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </button>
+        </div>
+
+        <div class="now-playing-container" id="now-playing-box">
+            <div class="song-title" id="song-title">Aguardando Música...</div>
+            <div class="song-artist" id="song-artist">-</div>
+        </div>
+    </div>
+
+    <!-- ABA 3: MEU AGILE (Intacta) -->
+    <div id="view-car" class="view-section">
+        <div class="full-screen-display">
+            <div class="side-menu">
+                <button class="side-menu-btn active" onclick="switchInfoView('info-motor', this)">Motor e Desempenho</button>
+                <button class="side-menu-btn" onclick="switchInfoView('info-consumo', this)">Consumo e Autonomia</button>
+                <button class="side-menu-btn" onclick="switchInfoView('info-dimensoes', this)">Dimensões e Capacidades</button>
+                <button class="side-menu-btn" onclick="switchInfoView('info-itens', this)">Principais Itens de Série e Opcionais (Versão LTZ)</button>
+            </div>
+
+            <div class="content-area">
+                <div id="info-motor" class="info-section active">
+                    <div class="info-title">Motor e Desempenho</div>
+                    <div class="info-box-container">
+                        <div class="info-box"><div class="info-box-content"><strong>Motorização:</strong> 1.4 8V Econoflex (flex)</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Potência:</strong> 102 cv (Etanol) / 97 cv (Gasolina) a 6.000 rpm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Torque:</strong> 13,5 kgf.m (Etanol) / 13,2 kgf.m (Gasolina) a 3.200 rpm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Velocidade Máxima:</strong> 166 km/h</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Aceleração (0 a 100 km/h):</strong> 12,5 segundos</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Câmbio:</strong> Manual de 5 velocidades (ou automatizado Easytronic como opcional)</div></div>
+                    </div>
+                </div>
+
+                <div id="info-consumo" class="info-section">
+                    <div class="info-title">Consumo e Autonomia</div>
+                    <div class="info-box-container">
+                        <div class="info-box"><div class="info-box-content"><strong>Consumo Urbano:</strong> 6,6 km/l (Etanol) / 9 km/l (Gasolina) <em>(dados médios gerais)</em></div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Consumo Rodoviário:</strong> 8,2 km/l (Etanol) / 11,7 km/l (Gasolina)</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Tanque de Combustível:</strong> 54 litros</div></div>
+                    </div>
+                </div>
+
+                <div id="info-dimensoes" class="info-section">
+                    <div class="info-title">Dimensões e Capacidades</div>
+                    <div class="info-box-container">
+                        <div class="info-box"><div class="info-box-content"><strong>Comprimento:</strong> 3.996 mm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Largura:</strong> 1.683 mm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Altura:</strong> 1.474 mm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Distância entre-eixos:</strong> 2.543 mm</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Porta-malas:</strong> 327 litros</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Peso:</strong> 1.075 kg</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Altura livre do solo:</strong> 160 mm</div></div>
+                    </div>
+                </div>
+
+                <div id="info-itens" class="info-section">
+                    <div class="info-title">Principais Itens de Série e Opcionais (Versão LTZ)</div>
+                    <div class="info-box-container">
+                        <div class="info-box"><div class="info-box-content"><strong>Direção:</strong> Hidráulica com regulagem de altura</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Ar-condicionado:</strong> Digital</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Segurança:</strong> Freios ABS com EBD e airbag duplo</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Conforto:</strong> Piloto automático (cruise control), acendimento automático dos faróis</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Vidros e Retrovisores:</strong> Vidros elétricos nas quatro portas e retrovisores com ajuste elétrico</div></div>
+                        <div class="info-box"><div class="info-box-content"><strong>Entretenimento:</strong> Sistema de som integrado com entrada USB, auxiliar e conexão Bluetooth</div></div>
+                    </div>
+                </div>
+
+                <div class="car-images-container">
+                    <div class="car-image-box">
+                        <img id="img-front-disp" src="1.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE+FRENTE'" alt="Agile Frente">
+                    </div>
+                    <div class="car-image-box">
+                        <img id="img-rear-disp" src="Captura de tela 2026-08-23 002723.png.png" onerror="this.src='https://placehold.co/400x300/111/ff0033?text=AGILE+TRASEIRA'" alt="Agile Traseira">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- LÓGICA DOS MENUS (Intacta) ---
+    function toggleMenu() {
+        const nav = document.getElementById('main-nav');
+        const btn = document.getElementById('menu-btn');
+        nav.classList.toggle('open');
+        btn.classList.toggle('active');
+    }
+
+    function switchView(viewId, btnElement) {
+        document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+        btnElement.classList.add('active');
+
+        document.getElementById('main-nav').classList.remove('open');
+        document.getElementById('menu-btn').classList.remove('active');
+    }
+
+    function switchInfoView(sectionId, btnElement) {
+        document.querySelectorAll('.info-section').forEach(section => section.classList.remove('active'));
+        document.querySelectorAll('.side-menu-btn').forEach(btn => btn.classList.remove('active'));
+
+        document.getElementById(sectionId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    // --- NOVA LÓGICA DO GPS E ANIMAÇÃO DA PISTA 3D ---
+    const velDisplay = document.getElementById('velocidadeTxt'); 
+    const carroImg = document.getElementById('carroImg');
+    const trackLines = document.getElementById('trackLines');
+
+    function iniciarGPS() {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                function(position) {
+                    let velMetrosPorSegundo = position.coords.speed;
+                    let velKmH = 0;
+
+                    if (velMetrosPorSegundo !== null && velMetrosPorSegundo > 0.3) {
+                        velKmH = Math.round(velMetrosPorSegundo * 3.6); 
                     }
-                );
-            }
-        }
 
-        // Inicia o GPS
-        iniciarGPS();
-    </script>
+                    if(velDisplay) velDisplay.innerText = velKmH;
+
+                    if (velKmH > 0) {
+                        if(carroImg) carroImg.className = 'carro-andando';
+                        if(trackLines) trackLines.className = 'track-lines pista-movimento';
+                    } else {
+                        if(carroImg) carroImg.className = 'carro-parado';
+                        if(trackLines) trackLines.className = 'track-lines'; 
+                    }
+                },
+                function(error) {
+                    console.error("Aguardando sinal de GPS do celular...", error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 5000
+                }
+            );
+        }
+    }
+    
+    // Inicia a leitura do velocímetro real
+    iniciarGPS();
+
+    // --- LÓGICA DE CONTROLE DE MÍDIA ANDROID (Intacta) ---
+    function checkAndroidPermissions() {
+        if (window.AndroidMediaController && typeof window.AndroidMediaController.checkPermission === "function") {
+            let hasPermission = window.AndroidMediaController.checkPermission();
+            let alertBox = document.getElementById('permission-alert');
+            if (!hasPermission) { alertBox.style.display = 'block'; } else { alertBox.style.display = 'none'; }
+        }
+    }
+
+    function requestAndroidPermission() {
+        if (window.AndroidMediaController && typeof window.AndroidMediaController.requestPermission === "function") {
+            window.AndroidMediaController.requestPermission();
+        }
+    }
+
+    setInterval(checkAndroidPermissions, 2000);
+
+    setInterval(() => {
+        if (window.AndroidMediaController && typeof window.AndroidMediaController.getNowPlaying === "function") {
+            let data = window.AndroidMediaController.getNowPlaying();
+            let box = document.getElementById('now-playing-box');
+
+            if (data && data !== "{}") {
+                try {
+                    let parsed = JSON.parse(data);
+                    if(parsed.title && parsed.title !== "Desconhecido") {
+                        document.getElementById('song-title').innerText = parsed.title;
+                        document.getElementById('song-artist').innerText = parsed.artist;
+                        box.style.opacity = '1';
+                    } else {
+                        box.style.opacity = '0';
+                    }
+                } catch(e) { box.style.opacity = '0'; }
+            } else { box.style.opacity = '0'; }
+        }
+    }, 1000);
+
+    function controlMedia(action) {
+        if (window.AndroidMediaController) {
+           window.AndroidMediaController.sendCommand(action);
+        } else {
+            console.log("Comando de áudio enviado (Você está rodando no PC/Navegador):", action);
+        }
+    }
+</script>
 </body>
 </html>
