@@ -16,8 +16,8 @@
             /* =========================================
                AJUSTE MILIMÉTRICO DAS LANTERNAS AQUI!
                ========================================= */
-            --altura-lanterna: 23%;   /* EXATAMENTE NA LENTE BRANCA INFERIOR */
-            --lateral-lanterna: 11%;  /* BEM NA BORDA */
+            --altura-lanterna: 31%;   /* AJUSTE PARA CIMA/BAIXO */
+            --lateral-lanterna: 21%;  /* AJUSTE PARA ESQUERDA/DIREITA */
         }
 
         body, html {
@@ -313,10 +313,10 @@
                         <stop offset="100%" stop-color="rgba(255,255,255,0)" />
                     </linearGradient>
                 </defs>
-                <!-- Feixe Esquerdo (Abre para a esquerda) -->
-                <polygon points="36,100 40,100 15,0 -20,0" fill="url(#beamGlow)" />
-                <!-- Feixe Direito (Abre para a direita) -->
-                <polygon points="64,100 60,100 85,0 120,0" fill="url(#beamGlow)" />
+                <!-- Feixe Esquerdo (Abre para a esquerda, SEM CRUZAR) -->
+                <polygon points="34,100 39,100 20,0 -10,0" fill="url(#beamGlow)" />
+                <!-- Feixe Direito (Abre para a direita, SEM CRUZAR) -->
+                <polygon points="66,100 61,100 80,0 110,0" fill="url(#beamGlow)" />
             </svg>
             
             <!-- IMAGEM BASE64 AQUI --->
