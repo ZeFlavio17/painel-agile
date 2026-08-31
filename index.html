@@ -120,9 +120,7 @@
 
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
-            mix-blend-mode: screen; /* APAGA O FUNDO PRETO MAGICALMENTE */
-            -webkit-mask-image: radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%);
-            mask-image: radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%);
+            /* mix-blend-mode e mask-image removidos pois a nova imagem já é transparente */
         }
 
         /* FAROL DIANTEIRO EM VETOR (100% A PROVA DE BUGS) */
@@ -269,7 +267,7 @@
                 <polygon points="72,100 68,100 150,0 80,0" fill="url(#beamGlow)" />
             </svg>
 
-            <img id="carroImg" src="https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg" alt="Carro Agile">
+            <img id="carroImg" src="https://www.hiclipart.com/free-transparent-background-png-clipart-fhbyr/download" alt="Carro Agile" onerror="this.src='https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg'; this.style.mixBlendMode='screen'; this.style.webkitMaskImage='radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%)'; this.style.maskImage='radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%)';">
             
             <!-- Lanternas Traseiras (Cravadas e Ajustáveis) -->
             <div class="taillight left"></div>
