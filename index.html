@@ -16,8 +16,8 @@
             /* =========================================
                AJUSTE MILIMÉTRICO DAS LANTERNAS AQUI!
                ========================================= */
-            --altura-lanterna: 38%;   /* MAIS PARA CIMA (era 26%) */
-            --lateral-lanterna: 22%;  /* MAIS PARA O CENTRO (era 18%) */
+            --altura-lanterna: 48%;   /* EXATAMENTE NA LENTE DA LANTERNA */
+            --lateral-lanterna: 14%;  /* MAIS PARA A BORDA */
         }
 
         body, html {
@@ -153,26 +153,26 @@
             filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
         }
 
-        /* FARÓIS NA PISTA (PERSPECTIVA 3D PERFEITA) */
+        /* FARÓIS NA PISTA (PERSPECTIVA 3D PERFEITA E AMPLA) */
         .headlight-beam {
             position: absolute;
             bottom: 0;
-            width: 18%;
-            height: 150%;
-            background: linear-gradient(to top, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.1) 40%, transparent 100%);
-            filter: blur(12px);
+            width: 50%; /* Campo de visão bem maior */
+            height: 250%; /* Ilumina mais longe */
+            background: linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 40%, transparent 100%);
+            filter: blur(25px); /* Espalha mais a luz */
             z-index: 2;
             pointer-events: none;
         }
-        .headlight-beam.left { left: 12%; }
-        .headlight-beam.right { right: 12%; }
+        .headlight-beam.left { left: -5%; }
+        .headlight-beam.right { right: -5%; }
 
         /* LANTERNAS TRASEIRAS CRAVADAS */
         .taillight {
             position: absolute; 
             bottom: var(--altura-lanterna); /* Usa o ajuste lá do topo */
-            width: 24px; /* Tamanho Fixo */
-            height: 18px; /* Ligeiramente oval */
+            width: 26px; /* Tamanho Fixo */
+            height: 20px; /* Ligeiramente oval */
             background: #ffffff; /* Núcleo Branco */
             border-radius: 50%;
             /* Brilho: Halo branco, Vermelho intenso, Vermelho espalhado */
