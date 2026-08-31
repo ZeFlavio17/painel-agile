@@ -120,7 +120,8 @@
 
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
-            /* mix-blend-mode e mask-image removidos pois a nova imagem já é transparente */
+            /* Sombra projetada abaixo do carro para dar volume real */
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
         }
 
         /* FAROL DIANTEIRO EM VETOR (100% A PROVA DE BUGS) */
@@ -181,7 +182,7 @@
         #view-panel.light-mode .speed-value-new, #view-panel.light-mode .speed-unit-new, #view-panel.light-mode .time-text, #view-panel.light-mode .date-text { color: #1e293b !important; text-shadow: none !important; }
         #view-panel.light-mode .track { background: #94a3b8; border-color: #475569; }
         #view-panel.light-mode .track-lines { background-image: linear-gradient(to bottom, #475569 50%, transparent 50%); }
-        #view-panel.light-mode #carroImg { mix-blend-mode: normal; }
+        #view-panel.light-mode #carroImg { filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); } /* Sombra mais fraca no claro */
         #view-panel.light-mode .headlight-svg, #view-panel.light-mode .taillight { opacity: 0; }
 
         #view-logo { display: none; }
@@ -267,7 +268,8 @@
                 <polygon points="72,100 68,100 150,0 80,0" fill="url(#beamGlow)" />
             </svg>
 
-            <img id="carroImg" src="https://www.hiclipart.com/free-transparent-background-png-clipart-fhbyr/download" alt="Carro Agile" onerror="this.src='https://i.postimg.cc/NMdqrfFt/Gemini-Generated-Image-nw2u48nw2u48nw2u.jpg'; this.style.mixBlendMode='screen'; this.style.webkitMaskImage='radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%)'; this.style.maskImage='radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%)';">
+            <!-- IMAGEM DO CARRO 100% TRANSPARENTE, SEM GAMBIARRAS -->
+            <img id="carroImg" src="https://i.imgur.com/8Q5t2Zg.png" alt="Carro Agile" onerror="this.src='https://placehold.co/600x400/transparent/transparent?text='">
             
             <!-- Lanternas Traseiras (Cravadas e Ajustáveis) -->
             <div class="taillight left"></div>
