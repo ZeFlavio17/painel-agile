@@ -16,8 +16,8 @@
             /* =========================================
                AJUSTE MILIMÉTRICO DAS LANTERNAS AQUI!
                ========================================= */
-            --altura-lanterna: 38%;   /* Aumente para subir as luzes, diminua para descer */
-            --lateral-lanterna: 24%;  /* Aumente para puxar as luzes para o CENTRO do carro */
+            --altura-lanterna: 60%;   /* AJUSTE PARA CIMA/BAIXO */
+            --lateral-lanterna: 19%;  /* AJUSTE PARA ESQUERDA/DIREITA */
         }
 
         body, html {
@@ -143,7 +143,7 @@
             bottom: -5vh; /* Colado na base */
             left: 50%; transform: translateX(-50%);
             width: clamp(350px, 55vh, 600px); /* CARRO GIGANTE */
-            /* aspect-ratio removido para o quadro se adaptar a qualquer recorte de imagem */
+            aspect-ratio: 1 / 1; 
             display: block; z-index: 10;
         }
 
@@ -314,9 +314,9 @@
                     </linearGradient>
                 </defs>
                 <!-- Feixe Esquerdo (Abre para a esquerda, SEM CRUZAR) -->
-                <polygon points="38,100 43,100 20,0 -10,0" fill="url(#beamGlow)" />
+                <polygon points="34,100 39,100 20,0 -10,0" fill="url(#beamGlow)" />
                 <!-- Feixe Direito (Abre para a direita, SEM CRUZAR) -->
-                <polygon points="62,100 57,100 80,0 110,0" fill="url(#beamGlow)" />
+                <polygon points="66,100 61,100 80,0 110,0" fill="url(#beamGlow)" />
             </svg>
             
             <!-- IMAGEM BASE64 AQUI --->
