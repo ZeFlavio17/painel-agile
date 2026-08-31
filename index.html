@@ -121,6 +121,8 @@
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
             mix-blend-mode: screen; /* APAGA O FUNDO PRETO MAGICALMENTE */
+            -webkit-mask-image: radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%);
+            mask-image: radial-gradient(ellipse 65% 70% at 50% 50%, black 45%, transparent 70%);
         }
 
         /* FAROL DIANTEIRO EM VETOR (100% A PROVA DE BUGS) */
@@ -411,19 +413,18 @@
                     }
                 },
                 function(error) { 
-                    // Apenas inicia o modo demonstração sem jogar erro no console
-                    // Isso evita o erro chato no painel de logs do preview
-                    if(velDisplay) velDisplay.innerText = "85";
-                    if(carWrapper) { carWrapper.classList.add('carro-andando'); carWrapper.classList.remove('carro-parado'); }
-                    if(trackLines) trackLines.classList.add('pista-movimento');
+                    // Mantém em 0 caso não consiga aceder ao GPS real
+                    if(velDisplay) velDisplay.innerText = "0";
+                    if(carWrapper) { carWrapper.classList.add('carro-parado'); carWrapper.classList.remove('carro-andando'); }
+                    if(trackLines) trackLines.classList.remove('pista-movimento');
                 },
                 { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 }
             );
         } else {
-            // Fallback para nav sem GPS
-            if(velDisplay) velDisplay.innerText = "85";
-            if(carWrapper) { carWrapper.classList.add('carro-andando'); carWrapper.classList.remove('carro-parado'); }
-            if(trackLines) trackLines.classList.add('pista-movimento');
+            // Fallback para browser sem suporte a GPS
+            if(velDisplay) velDisplay.innerText = "0";
+            if(carWrapper) { carWrapper.classList.add('carro-parado'); carWrapper.classList.remove('carro-andando'); }
+            if(trackLines) trackLines.classList.remove('pista-movimento');
         }
     }
     iniciarGPS();
