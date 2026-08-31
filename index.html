@@ -14,21 +14,22 @@
             --bg-dark: #000000;
             
             /* =========================================
-               1. POSIÇÃO DAS LUZES TRASEIRAS
+               1. POSIÇÃO DAS LUZES TRASEIRAS (INDEPENDENTES)
                ========================================= */
-            --altura-lanterna: 50%;   /* Vertical: Aumente para subir, diminua para descer */
-            --lateral-lanterna: 17%;  /* Horizontal: Aumente para ir ao centro, diminua para ir às pontas */
+            --altura-lanterna: 42%;   /* Vertical: Aumente para subir, diminua para descer */
+            --lateral-esq: 6%;        /* Luz Esquerda: Aumente para puxar para o centro */
+            --lateral-dir: 10%;       /* Luz Direita: Aumente para puxar para o centro */
             
             /* =========================================
                2. POSIÇÃO DO CARRO INTEIRO (IMAGEM + LUZES)
                ========================================= */
-            --posicao-carro-horizontal: -52%; /* Horizontal: Diminua (ex: -58%) p/ esquerda, aumente (ex: -45%) p/ direita */
-            --posicao-carro-vertical: -0vh;   /* Vertical: Aumente o número negativo (ex: -10vh) para subir o carro */
+            --posicao-carro-horizontal: -55%; /* Horizontal: Diminua p/ esquerda, aumente p/ direita */
+            --posicao-carro-vertical: -10vh;  /* Vertical: Aumente o número negativo p/ subir o carro */
             
             /* =========================================
                3. POSIÇÃO DA PISTA (ESTRADA)
                ========================================= */
-            --posicao-pista-horizontal: -54%; /* Horizontal: Mude para a esquerda (ex: -55%) ou direita (ex: -45%) */
+            --posicao-pista-horizontal: -50%; /* Horizontal: Mude para a esquerda ou direita */
         }
 
         body, html {
@@ -131,12 +132,11 @@
         
         .track {
             position: absolute; bottom: -20vh; 
-            /* Movimento horizontal da pista */
             left: 50%;
             transform-origin: bottom center;
             transform: translateX(var(--posicao-pista-horizontal)) rotateX(82deg);
             width: 80vw; 
-            height: 300vh; /* Altura absurda para furar o teto */
+            height: 300vh;
             background: #000000; 
             border-left: 6px solid #ffffff; 
             border-right: 6px solid #ffffff; 
@@ -154,49 +154,45 @@
            ========================================= */
         .car-wrapper {
             position: absolute; 
-            /* Variável para a posição vertical do carro */
             bottom: var(--posicao-carro-vertical); 
             left: 50%; 
-            /* Variável para a posição horizontal do carro */
             transform: translateX(var(--posicao-carro-horizontal));
-            width: clamp(350px, 55vh, 600px); /* CARRO GIGANTE */
+            width: clamp(350px, 55vh, 600px);
             display: block; z-index: 10;
         }
 
         #carroImg {
             width: 100%; display: block; position: relative; z-index: 4;
-            /* Sombra projetada abaixo do carro para dar volume real */
             filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
         }
 
-        /* FARÓIS DIANTEIROS (FORMATO "V" PARA FORA) */
+        /* FARÓIS DIANTEIROS */
         .headlight-svg {
             position: absolute;
-            bottom: 30%; /* Nasce da altura dos faróis da frente */
-            left: -50%; /* Espaço para abrir o "V" */
+            bottom: 30%; 
+            left: -50%; 
             width: 200%;
             height: 120vh;
-            z-index: 1; /* Fica atrás do carro */
+            z-index: 1; 
             overflow: visible;
             pointer-events: none;
-            filter: blur(6px); /* Suaviza a luz */
+            filter: blur(6px); 
         }
 
-        /* LANTERNAS TRASEIRAS CRAVADAS NAS LENTES BRANCAS */
+        /* LANTERNAS TRASEIRAS */
         .taillight {
             position: absolute; 
-            bottom: var(--altura-lanterna); /* Usa o ajuste lá do topo */
-            width: 22px; /* Tamanho Fixo */
-            height: 16px; /* Ligeiramente oval */
-            background: #ffffff; /* Núcleo Branco */
+            bottom: var(--altura-lanterna); 
+            width: 22px; 
+            height: 16px; 
+            background: #ffffff; 
             border-radius: 50%;
-            /* Brilho: Halo branco, Vermelho intenso, Vermelho espalhado */
             box-shadow: 0 0 4px #fff, 0 0 12px 6px #ff0000, 0 0 35px 15px #ff0033;
             z-index: 5; opacity: 1; 
         }
-        /* O transform garante que a luz fica CRAVADA no centro, não importa o tamanho da tela */
-        .taillight.left { left: var(--lateral-lanterna); transform: translate(-50%, 50%); } 
-        .taillight.right { right: var(--lateral-lanterna); transform: translate(50%, 50%); }
+        /* AGORA SÃO INDEPENDENTES */
+        .taillight.left { left: var(--lateral-esq); transform: translate(-50%, 50%); } 
+        .taillight.right { right: var(--lateral-dir); transform: translate(50%, 50%); }
 
         /* =========================================
            ANIMAÇÕES (TREPIDAÇÃO REALISTA)
@@ -228,7 +224,7 @@
         #view-panel.light-mode .speed-value-new, #view-panel.light-mode .speed-unit-new, #view-panel.light-mode .time-text, #view-panel.light-mode .date-text { color: #1e293b !important; text-shadow: none !important; }
         #view-panel.light-mode .track { background: #94a3b8; border-color: #475569; }
         #view-panel.light-mode .track-lines { background-image: linear-gradient(to bottom, #475569 50%, transparent 50%); }
-        #view-panel.light-mode #carroImg { filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); } /* Sombra mais fraca no claro */
+        #view-panel.light-mode #carroImg { filter: drop-shadow(0 15px 15px rgba(0,0,0,0.2)); } 
         #view-panel.light-mode .headlight-svg, #view-panel.light-mode .taillight { opacity: 0; }
 
         #view-logo { display: none; }
@@ -279,26 +275,11 @@
             </div>
             
             <button class="top-btn" onclick="toggleTheme()" title="Modo Dia/Noite" id="theme-btn">
-                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </button>
-
             <button class="top-btn" onclick="toggleFullScreen()" title="Tela Cheia">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
             </button>
         </div>
 
@@ -314,7 +295,6 @@
         </div>
         
         <div class="car-wrapper carro-parado" id="carWrapper">
-
             <svg class="headlight-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <defs>
                     <linearGradient id="beamGlow" x1="0" y1="1" x2="0" y2="0">
@@ -349,7 +329,6 @@
             </div>
 
             <div class="content-area">
-                
                 <div id="info-motor" class="info-section active">
                     <div class="info-title">Motor e Desempenho</div>
                     <div class="info-box-container">
