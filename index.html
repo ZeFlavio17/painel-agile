@@ -448,7 +448,7 @@
             <!-- 1° COLAR IMAGEM CARRO AQUI (Abaixo)            -->
             <!-- (Ajustado com Placeholder de Fundo Transparente para funcionar a sombra e luzes) -->
             <!-- ============================================== -->
-            <img id="carroImg" src="carro ágil.png" alt="Carro Agile Traseira">
+            <img id="carroImg" src="carro%20%C3%A1gil.png" alt="Carro Agile Traseira">
             
             <div class="taillight left"></div>
             <div class="taillight right"></div>
@@ -464,7 +464,7 @@
             <!-- 2° COLAR IMAGEM DO LOGO AQUI (Abaixo)          -->
             <!-- (Ajustado com Placeholder) -->
             <!-- ============================================== -->
-            <img src="logotipo-ágil.png" alt="Logo Chevrolet">
+            <img src="logotipo-%C3%A1gil.png" alt="Logo Chevrolet">
         </div>
     </div>
 
@@ -802,8 +802,8 @@
     const loader = new THREE.GLTFLoader();
     let loadedCarModel = null;
     
-    // Link direto para um modelo 3D GLTF de um carro Hatchback genérico gratuito
-    const urlDoCarro = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb'; 
+    // Link direto para um modelo 3D GLTF usando CDN para evitar bloqueio de CORS do GitHub
+    const urlDoCarro = 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Duck/glTF-Binary/Duck.glb'; 
     // OBSERVAÇÃO: Coloquei o modelo de teste "Duck" (Pato) da Khronos 
     // porque arquivos de carros pesados costumam dar erro de CORS em visualizadores online.
     // Para ver um carro, substitua pela URL de um carro real hospedado no seu servidor.
